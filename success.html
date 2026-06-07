@@ -14,9 +14,10 @@
             color: #333;
             display: flex;
             justify-content: center;
+            overflow-x: hidden;
         }
 
-        /* スマホサイズに固定するコンテナ */
+        /* スマホサイズ固定コンテナ */
         .container {
             width: 100%;
             max-width: 412px;
@@ -25,9 +26,10 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            position: relative;
         }
 
-        /* ヘッダー部分 */
+        /* ヘッダー */
         .header {
             display: flex;
             justify-content: space-between;
@@ -40,7 +42,7 @@
             font-weight: bold;
             flex-grow: 1;
             text-align: center;
-            margin-left: 40px; /* アイコンとのバランス調整 */
+            margin-left: 40px;
         }
         .header-icons {
             display: flex;
@@ -49,9 +51,10 @@
         .icon-btn {
             font-size: 20px;
             cursor: pointer;
+            user-select: none;
         }
 
-        /* メインコンテンツ（上の白いエリア） */
+        /* メインコンテンツ（上部） */
         .top-content {
             padding: 10px 20px 20px 20px;
             position: relative;
@@ -60,25 +63,21 @@
             font-size: 32px;
             font-weight: 900;
             margin: 0 0 15px 0;
-            letter-spacing: 0.5px;
         }
-
-        /* イラストの配置（右上） */
         .illustration {
             position: absolute;
             right: 20px;
             top: -10px;
             width: 110px;
-            height: auto;
+            font-size: 35px;
+            text-align: right;
         }
 
-        /* カードが並ぶエリア */
+        /* グリッド配置 */
         .dashboard-grid {
             display: flex;
             gap: 15px;
         }
-
-        /* 左側の日付カード */
         .date-card {
             background-color: #fff;
             border-radius: 16px;
@@ -87,22 +86,10 @@
             text-align: center;
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
-        .date-year {
-            font-size: 14px;
-            color: #888;
-            margin-bottom: 2px;
-        }
-        .date-day {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .date-week {
-            font-size: 28px;
-            font-weight: bold;
-        }
+        .date-year { font-size: 14px; color: #888; }
+        .date-day { font-size: 20px; font-weight: bold; margin: 2px 0; }
+        .date-week { font-size: 28px; font-weight: bold; }
 
-        /* 右側のメニューリンクカード */
         .menu-card {
             background-color: #fff;
             border-radius: 16px;
@@ -110,7 +97,6 @@
             padding: 15px 20px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             gap: 15px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
@@ -123,23 +109,13 @@
             color: #333;
             position: relative;
         }
-        .menu-icon {
-            margin-right: 8px;
-            font-size: 16px;
-        }
-        /* お知らせの赤い丸通知 */
+        .menu-icon { margin-right: 8px; }
         .badge::after {
-            content: "";
-            position: absolute;
-            left: 12px;
-            top: -2px;
-            width: 6px;
-            height: 6px;
-            background-color: #ff4d4d;
-            border-radius: 50%;
+            content: ""; position: absolute; left: 12px; top: -2px;
+            width: 6px; height: 6px; background-color: #ff4d4d; border-radius: 50%;
         }
 
-        /* 下の青いスケジュールエリア */
+        /* 下部スケジュールエリア */
         .schedule-area {
             background-color: #0066cc;
             border-top-left-radius: 24px;
@@ -148,78 +124,124 @@
             flex-grow: 1;
             color: white;
         }
+        .schedule-header { display: flex; justify-content: flex-end; align-items: center; margin-bottom: 20px; }
+        .toggle-switch { background-color: rgba(255, 255, 255, 0.2); border-radius: 20px; padding: 2px; display: flex; }
+        .toggle-btn { padding: 4px 14px; font-size: 13px; font-weight: bold; border-radius: 18px; }
+        .toggle-btn.active { background-color: white; color: #0066cc; }
+        .date-nav { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 20px; }
+        .nav-today { background-color: white; color: #0066cc; padding: 5px 16px; border-radius: 20px; font-size: 14px; font-weight: bold; }
+        .empty-schedule-box { background-color: rgba(0, 0, 0, 0.15); border-radius: 12px; padding: 25px 20px; text-align: center; font-size: 15px; font-weight: bold; }
 
-        /* スケジュールヘッダー（切り替えスイッチなど） */
-        .schedule-header {
+        /* ===================================================
+           💥 ここから右側スライドメニュー（ドロワー）のCSS！
+        =================================================== */
+        /* メニューの背景の黒いモヤモヤ（ここをタップでも閉じられるよ！） */
+        .menu-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.4);
+            z-index: 100;
+            display: none; /* 最初は隠しておく */
+        }
+
+        /* ドロワーメニュー本体 */
+        .side-menu {
+            position: absolute;
+            top: 0; right: -85%; /* 最初は画面の右側に隠しておくよ！ */
+            width: 85%; height: 100%;
+            background-color: #ffffff;
+            z-index: 101;
+            box-sizing: border-box;
+            transition: right 0.3s ease; /* スムーズに動く魔法！ */
+            overflow-y: auto; /* 縦長だからスクロールできるようにする！ */
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* メニューが開いたときのクラス */
+        .side-menu.open {
+            right: 0;
+        }
+
+        /* 青いヘッダー項目 */
+        .nav-blue-item {
+            background-color: #1a65cc;
+            color: white;
+            padding: 16px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        /* 日・週のトグルスイッチ風 */
-        .toggle-switch {
-            background-color: rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 2px;
-            display: flex;
-        }
-        .toggle-btn {
-            padding: 4px 14px;
-            font-size: 13px;
+            text-decoration: none;
+            font-size: 15px;
             font-weight: bold;
-            border-radius: 18px;
-            cursor: pointer;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
         }
-        .toggle-btn.active {
-            background-color: white;
-            color: #0066cc;
-        }
-        .toggle-btn.inactive {
-            color: white;
+        .nav-blue-item div { display: flex; align-items: center; gap: 10px; }
+
+        /* カテゴリの見出し（個人別情報とか！） */
+        .menu-category-title {
+            color: #1a65cc;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 15px 20px 5px 20px;
+            background-color: #fff;
         }
 
-        /* 日付ナビゲーション */
-        .date-nav {
+        /* 通常の白いメニューリンク */
+        .menu-link-item {
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-decoration: none;
+            color: #333333;
+            font-size: 14px;
+            background-color: #fff;
+            border-bottom: 1px solid #f0f0f0;
+            padding-left: 35px; /* ちょっと右にずらして見出しとメリハリを出す！ */
+        }
+        .menu-arrow {
+            color: #1a65cc;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* 個人設定の青枠項目 */
+        .menu-blue-bar {
+            background-color: #1a65cc;
+            color: white;
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* ログアウトボタンのエリア */
+        .logout-area {
+            padding: 20px;
+            background-color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .btn-logout {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        .nav-today {
+            gap: 8px;
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #1a65cc;
+            border-radius: 25px;
             background-color: white;
-            color: #0066cc;
-            padding: 5px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: bold;
-        }
-        .nav-arrow {
-            font-size: 18px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .nav-current-date {
-            font-size: 18px;
-            font-weight: bold;
-            letter-spacing: 0.5px;
-        }
-        .nav-calendar-icon {
-            font-size: 18px;
-            cursor: pointer;
-        }
-
-        /* 「本日の予定はありません」のボックス */
-        .empty-schedule-box {
-            background-color: rgba(0, 0, 0, 0.15);
-            border-radius: 12px;
-            padding: 25px 20px;
-            text-align: center;
+            color: #1a65cc;
             font-size: 15px;
             font-weight: bold;
-            letter-spacing: 0.5px;
-            margin-top: 5px;
+            text-decoration: none;
+            box-sizing: border-box;
         }
     </style>
 </head>
@@ -231,24 +253,18 @@
         <div class="header-title">ポータルトップ</div>
         <div class="header-icons">
             <span class="icon-btn">📅</span>
-            <span class="icon-btn">☰</span>
-        </div>
+            <span class="icon-btn" id="menuOpenBtn">☰</span> </div>
     </div>
 
     <div class="top-content">
         <h2 class="today-title">TODAY</h2>
-        
-        <div class="illustration" style="font-size: 35px; text-align: right; line-height: 1;">
-            👩‍🦰☕️👨
-        </div>
-
+        <div class="illustration">👩‍🦰☕️👨</div>
         <div class="dashboard-grid">
             <div class="date-card">
                 <div class="date-year">2026</div>
                 <div class="date-day">6/7</div>
                 <div class="date-week">日</div>
             </div>
-
             <div class="menu-card">
                 <a href="#" class="menu-item badge"><span class="menu-icon">📨</span> お知らせ</a>
                 <a href="#" class="menu-item"><span class="menu-icon">📖</span> シラバス照会</a>
@@ -259,28 +275,105 @@
 
     <div class="schedule-area">
         <div class="schedule-header">
-            <div style="flex-grow: 1;"></div>
-            <div class="toggle-switch">
-                <div class="toggle-btn active">日</div>
-                <div class="toggle-btn inactive">週</div>
-            </div>
-            <span class="icon-btn" style="margin-left: 15px; font-size: 16px;">↑</span>
+            <div class="toggle-switch"><div class="toggle-btn active">日</div></div>
         </div>
-
         <div class="date-nav">
             <div class="nav-today">今日</div>
             <span class="nav-arrow">＜</span>
             <div class="nav-current-date">2026/06/07 日</div>
             <span class="nav-arrow">＞</span>
-            <span class="nav-calendar-icon">📅</span>
+        </div>
+        <div class="empty-schedule-box">本日の予定はありません</div>
+    </div>
+
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <div class="side-menu" id="sideMenu">
+        
+        <a href="#" class="nav-blue-item">
+            <div><span>🏠</span>ポータルトップ(スマートフォン)</div>
+            <span style="color:white;">＞</span>
+        </a>
+        <a href="#" class="nav-blue-item">
+            <div><span> can-icon </span>お気に入りタイトル</div>
+            <span style="color:white;">＞</span>
+        </a>
+
+        <div class="menu-category-title">個人別情報</div>
+        <a href="#" class="menu-link-item"><span>学籍情報照会について</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>学籍情報照会</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>健康診断情報照会</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>安否確認回答</span><span class="menu-arrow">＞</span></a>
+
+        <div class="menu-category-title">履修登録</div>
+        <a href="#" class="menu-link-item"><span>履修の手引き</span><span class="menu-arrow">＞</span></a>
+
+        <div class="menu-category-title">時間割</div>
+        <a href="#" class="menu-link-item"><span>時間割について</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>学生時間割表</span><span class="menu-arrow">＞</span></a>
+
+        <div class="menu-category-title">授業</div>
+        <a href="#" class="menu-link-item"><span>シラバス照会</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>2020～2022シラバス照会</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>出席管理について</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>出席登録</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>出席確認</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>授業評価閲覧</span><span class="menu-arrow">＞</span></a>
+
+        <div class="menu-category-title">成績関連</div>
+        <a href="#" class="menu-link-item"><span>成績照会について</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>成績照会</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>掲示板</span><span class="menu-arrow">＞</span></a>
+
+        <div class="menu-category-title">資料/サイトリンク</div>
+        <a href="#" class="menu-link-item"><span>学事日程</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>学生要覧</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>UNIPA使用法</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>MARCOシステム</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>東京電機大学生活協同組合HP</span><span class="menu-arrow">＞</span></a>
+
+        <div class="menu-category-title">授業アンケート</div>
+        <a href="#" class="menu-link-item"><span>授業アンケート回答</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>回答方法</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>結果照会（BOX）</span><span class="menu-arrow">＞</span></a>
+
+        <div class="menu-category-title">マイステップ</div>
+        <a href="#" class="menu-link-item"><span>マイステップ登録</span><span class="menu-arrow">＞</span></a>
+
+        <div class="menu-category-title">★WebClass★</div>
+        <a href="#" class="menu-link-item"><span>TDUポートフォリオへのリンク</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>★WebClass★</span><span class="menu-arrow">＞</span></a>
+
+        <a href="#" class="menu-blue-bar">
+            <span>👤 個人設定(スマートフォン)</span>
+            <span>＞</span>
+        </a>
+
+        <div class="logout-area">
+            <a href="index.html" class="btn-logout">↪ ログアウト</a>
         </div>
 
-        <div class="empty-schedule-box">
-            本日の予定はありません
-        </div>
     </div>
 
 </div>
+
+<script>
+    const menuOpenBtn = document.getElementById('menuOpenBtn');
+    const sideMenu = document.getElementById('sideMenu');
+    const menuOverlay = document.getElementById('menuOverlay');
+
+    // 「☰」ボタンを押したらメニューを開く！
+    menuOpenBtn.addEventListener('click', function() {
+        sideMenu.classList.add('open');
+        menuOverlay.style.display = 'block';
+    });
+
+    // 黒い背景モヤモヤを押したらメニューを閉じる！
+    menuOverlay.addEventListener('click', function() {
+        sideMenu.classList.remove('open');
+        menuOverlay.style.display = 'none';
+    });
+</script>
 
 </body>
 </html>
