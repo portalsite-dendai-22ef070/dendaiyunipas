@@ -78,32 +78,50 @@
 </div>
 
 <script>
-    // 今日の日付をゲット！
+    // 今日の日付（時刻も含む）をゲット！
     const today = new Date();
     
     // 表の行をぜんぶ取得！
     const rows = document.querySelectorAll('tbody tr');
-    let attendCount = 0;
-    let totalClasses = 14;
+    let attendCount = 0; // 出席（〇がついた）数
+    let pastClassCount = 0; // すでに実施された授業の数
 
     rows.forEach(row => {
-        // 各行に設定した日付をゲットして、プログラムで読める日付にするよ！
         const classDateStr = row.getAttribute('data-date');
         const classDate = new Date(classDateStr);
         const statusCell = row.querySelector('.status-cell');
 
-        // もし「今日」が「授業の日」と同じか、それを過ぎていたら！
-        if (today >= classDate) {
-            statusCell.textContent = '〇'; // 自動で〇を書き込む！
+        // 💥 【修正点1】授業の「翌日」を計算するよ！
+        const nextDay = new Date(classDate);
+        nextDay.setDate(nextDay.getDate() + 1); // 授業日に1日プラスする！
+
+        // 1. 授業当日を過ぎている（＝翌日になった瞬間）なら「〇」をつける！
+        if (today >= nextDay) {
+            statusCell.textContent = '〇';
             statusCell.classList.add('mark-circle');
-            attendCount++; // 出席数を1増やす！
+            attendCount++; 
+        }
+
+        // 2. 💥 【修正点2】今現在、すでに実施された授業かどうかを判定！
+        // 授業日の「23時59分59秒」を過ぎていたら、実施済みカウントを増やすよ！
+        const classEnd = new Date(classDate);
+        classEnd.setHours(23, 59, 59, 999);
+
+        if (today > classEnd) {
+            pastClassCount++;
         }
     });
 
-    // 💥 ついでに出席率も自動計算しちゃうよ！
-    // 出席率 = (出席数 / 全14回) * 100
-    const rate = Math.round((attendCount / totalClasses) * 100);
-    document.getElementById('realAttendanceRate').textContent = rate + '%';
+    // 💥 実施済みの授業数をもとに、正しい出席率を計算！
+    let finalRate = 0;
+    if (pastClassCount > 0) {
+        finalRate = Math.round((attendCount / pastClassCount) * 100);
+    } else {
+        finalRate = 0; // まだ1回も授業が始まってないときは0%にするよ！
+    }
+
+    // 画面の出席率表示を書き換える！
+    document.getElementById('realAttendanceRate').textContent = finalRate + '%';
 </script>
 
 </body>
