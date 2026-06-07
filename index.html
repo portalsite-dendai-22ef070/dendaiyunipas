@@ -79,19 +79,19 @@
         const userInput = document.getElementById('userId').value;
         const passInput = document.getElementById('password').value;
 
-        // 正解のIDとパスワードを設定（ここを好きな文字に変えてね！）
+        // 正解のIDとパスワードを設定
         const correctUser = "tdu2026";
         const correctPass = "unipa123";
 
         // 判定スタート！
-        // 判定スタート！
-if (userInput === correctUser && passInput === correctPass) {
-    // 💥 アラートの代わりに、作った success.html に画面を切り替えるよ！
-    window.location.href = "success.html"; 
-} else {
-    alert('❌ ユーザーIDまたはパスワードが違います！');
-}
-    </script>
+        if (userInput === correctUser && passInput === correctPass) {
+            // success.html に画面を切り替えるよ！
+            window.location.href = "success.html"; 
+        } else {
+            alert('❌ ユーザーIDまたはパスワードが違います！');
+        }
+    }); // 👈 💥ここ！前のコードはここの「 }); 」が抜けてたの！本当にごめんね！
+</script>
 
 </body>
 </html>
