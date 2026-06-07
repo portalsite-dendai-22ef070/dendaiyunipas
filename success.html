@@ -133,7 +133,7 @@
         .empty-schedule-box { background-color: rgba(0, 0, 0, 0.15); border-radius: 12px; padding: 25px 20px; text-align: center; font-size: 15px; font-weight: bold; }
 
         /* ===================================================
-           💥 ここから右側スライドメニュー（ドロワー）のCSS！
+            💥 ここから右側スライドメニュー（ドロワー）のCSS！
         =================================================== */
         /* メニューの背景の黒いモヤモヤ（ここをタップでも閉じられるよ！） */
         .menu-overlay {
@@ -223,6 +223,7 @@
         /* ログアウトボタンのエリア */
         .logout-area {
             padding: 20px;
+            padding-bottom: 80px; /* 👈 💥ここを20pxから80pxに増やして、スマホのバーに被らないようにしたよ！ */
             background-color: #fff;
             text-align: center;
             margin-bottom: 20px;
@@ -381,7 +382,7 @@
 
     // 指定した時間が経ったらログイン画面（index.html）に飛ばす関数！
     const timer = setTimeout(function() {
-        alert('⏰ 一定時間操作がなかったため、自動的にログアウトしました！');
+        alert(' 一定時間操作がなかったため、自動的にログアウトしました。再度ログインし直してください。');
         window.location.href = "index.html";
     }, logoutTime);
 </script>
