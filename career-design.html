@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>出欠状況確認</title>
     <style>
-        /* デザインは統一して美しく仕上げてあるよ！ */
         body { margin: 0; padding: 0; font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #f4f5f9; color: #333; display: flex; justify-content: center; }
         .container { width: 100%; max-width: 412px; background-color: #f4f5f9; box-sizing: border-box; display: flex; flex-direction: column; min-height: 100vh; padding-bottom: 40px; }
         .header { background-color: #1a65cc; color: white; display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; position: sticky; top: 0; z-index: 10; }
@@ -45,8 +44,7 @@
     </div>
 
     <div class="legend-area">
-        〇：出席 ▽：早退 △：遅刻 ×：欠席 休：休講<br>
-        －：授業対象外
+        〇：出席 ▽：早退 △：遅刻 ×：欠席 休：休講<br>－：授業対象外
     </div>
 
     <div class="table-container">
@@ -60,20 +58,20 @@
                 </tr>
             </thead>
             <tbody>
-                <tr data-date="2026-04-14"><td>1</td><td>04/14</td><td>火3</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-04-21"><td>2</td><td>04/21</td><td>火3</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-04-28"><td>3</td><td>04/28</td><td>火3</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-05-12"><td>4</td><td>05/12</td><td>火3</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-05-19"><td>5</td><td>05/19</td><td>火3</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-05-26"><td>6</td><td>05/26</td><td>火3</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-06-02"><td>7</td><td>06/02</td><td>火3</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-06-09"><td>8</td><td>06/09</td><td>火3</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-06-16"><td>9</td><td>06/16</td><td>火3</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-06-23"><td>10</td><td>06/23</td><td>火3</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-06-30"><td>11</td><td>06/30</td><td>火3</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-07-07"><td>12</td><td>07/07</td><td>火3</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-07-14"><td>13</td><td>07/14</td><td>火3</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-07-21"><td>14</td><td>07/21</td><td>火3</td><td class="status-cell"></td></tr>
+                <tr data-date="2026-06-09"><td>1</td><td>06/09</td><td>火3</td><td class="status-cell"></td></tr>
+                <tr data-date="2026-06-16"><td>2</td><td>06/16</td><td>火3</td><td class="status-cell"></td></tr>
+                <tr data-date="2026-06-23"><td>3</td><td>06/23</td><td>火3</td><td class="status-cell"></td></tr>
+                <tr data-date="2026-06-30"><td>4</td><td>06/30</td><td>火3</td><td class="status-cell"></td></tr>
+                <tr data-date="2026-07-07"><td>5</td><td>07/07</td><td>火3</td><td class="status-cell"></td></tr>
+                <tr data-date="2026-07-14"><td>6</td><td>07/14</td><td>火3</td><td class="status-cell"></td></tr>
+                <tr data-date="2026-07-21"><td>7</td><td>07/21</td><td>火3</td><td class="status-cell"></td></tr>
+                <tr data-date="2026-09-15"><td>8</td><td>09/15</td><td>火3</td><td class="status-cell"></td></tr>
+                <tr data-date="2026-09-22"><td>9</td><td>09/22</td><td>火3</td><td class="status-cell"></td></tr>
+                <tr data-date="2026-09-29"><td>10</td><td>09/29</td><td>火3</td><td class="status-cell"></td></tr>
+                <tr data-date="2026-10-06"><td>11</td><td>10/06</td><td>火3</td><td class="status-cell"></td></tr>
+                <tr data-date="2026-10-13"><td>12</td><td>10/13</td><td>火3</td><td class="status-cell"></td></tr>
+                <tr data-date="2026-10-20"><td>13</td><td>10/20</td><td>火3</td><td class="status-cell"></td></tr>
+                <tr data-date="2026-10-27"><td>14</td><td>10/27</td><td>火3</td><td class="status-cell"></td></tr>
             </tbody>
         </table>
     </div>
@@ -91,18 +89,15 @@
         const classDate = new Date(classDateStr);
         const statusCell = row.querySelector('.status-cell');
 
-        // 授業の「翌日」を計算！
         const nextDay = new Date(classDate);
         nextDay.setDate(nextDay.getDate() + 1);
 
-        // 翌日を迎えていたら「〇」をつける！
         if (today >= nextDay) {
             statusCell.textContent = '〇';
             statusCell.classList.add('mark-circle');
             attendCount++; 
         }
 
-        // 授業日の23:59:59を過ぎていたら実施済みカウントを増やす！
         const classEnd = new Date(classDate);
         classEnd.setHours(23, 59, 59, 999);
 
@@ -111,13 +106,14 @@
         }
     });
 
-    // 出席率をリアルタイムに計算！
     let finalRate = 0;
     if (pastClassCount > 0) {
         finalRate = Math.round((attendCount / pastClassCount) * 100);
+        document.getElementById('realAttendanceRate').textContent = finalRate + '%';
+    } else {
+        // 💥 まだ実施済みの授業がないときは「%」のままにするよ！
+        document.getElementById('realAttendanceRate').textContent = '%';
     }
-
-    document.getElementById('realAttendanceRate').textContent = finalRate + '%';
 </script>
 
 </body>
