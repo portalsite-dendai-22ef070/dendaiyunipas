@@ -372,6 +372,18 @@
         sideMenu.classList.remove('open');
         menuOverlay.style.display = 'none';
     });
+
+    // ===================================================
+    // ⏰ ここから自動ログアウトのタイマー機能！
+    // ===================================================
+    // 制限時間を設定（ミリ秒単位だから、10000ms = 10秒だよ！）
+    const logoutTime = 10000; 
+
+    // 指定した時間が経ったらログイン画面（index.html）に飛ばす関数！
+    const timer = setTimeout(function() {
+        alert('⏰ 一定時間操作がなかったため、自動的にログアウトしました！');
+        window.location.href = "index.html";
+    }, logoutTime);
 </script>
 
 </body>
