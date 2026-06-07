@@ -65,13 +65,6 @@
                 <tr data-date="2026-07-07"><td>5</td><td>07/07</td><td>火3</td><td class="status-cell"></td></tr>
                 <tr data-date="2026-07-14"><td>6</td><td>07/14</td><td>火3</td><td class="status-cell"></td></tr>
                 <tr data-date="2026-07-21"><td>7</td><td>07/21</td><td>火3</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-09-15"><td>8</td><td>09/15</td><td>火3</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-09-22"><td>9</td><td>09/22</td><td>火3</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-09-29"><td>10</td><td>09/29</td><td>火3</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-10-06"><td>11</td><td>10/06</td><td>火3</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-10-13"><td>12</td><td>10/13</td><td>火3</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-10-20"><td>13</td><td>10/20</td><td>火3</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-10-27"><td>14</td><td>10/27</td><td>火3</td><td class="status-cell"></td></tr>
             </tbody>
         </table>
     </div>
@@ -111,7 +104,6 @@
         finalRate = Math.round((attendCount / pastClassCount) * 100);
         document.getElementById('realAttendanceRate').textContent = finalRate + '%';
     } else {
-        // 💥 まだ実施済みの授業がないときは「%」のままにするよ！
         document.getElementById('realAttendanceRate').textContent = '%';
     }
 </script>
