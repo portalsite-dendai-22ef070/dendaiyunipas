@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学生ポータルサイト DENDAI-UNIPA</title>
+    <style>
+        /* 全体のリセットと背景色 */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            background-color: #f4f5f9;
+            color: #333333;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* スマホ画面風のコンテナ */
+        .container {
+            width: 100%;
+            max-width: 412px;
+            background-color: #f4f5f9;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* ロゴ部分のレイアウト */
+        .logo-area {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+        .logo-tdu {
+            font-size: 32px;
+            font-weight: bold;
+            color: #005bac;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+        .logo-text {
+            display: inline-block;
+            vertical-align: middle;
+            text-align: left;
+        }
+        .logo-subtitle {
+            font-size: 11px;
+            font-weight: bold;
+            color: #333;
+            margin: 0;
+            line-height: 1;
+        }
+        .logo-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #111;
+            margin: 2px 0 0 0;
+            letter-spacing: 0.5px;
+        }
+        .logo-subbrand {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #003366;
+            letter-spacing: 1px;
+        }
+
+        /* 入力フォーム */
+        .form-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+        .form-input {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff;
+            box-sizing: border-box;
+            text-align: center;
+            color: #666;
+        }
+        .form-input::placeholder {
+            color: #999;
+        }
+        .password-eye {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #0076e4;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* 自動ログインチェックボックス */
+        .login-options {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 25px;
+            color: #005bac;
+            font-size: 15px;
+            font-weight: bold;
+        }
+        .login-options input {
+            margin-left: 10px;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #005bac;
+            border-radius: 4px;
+        }
+
+        /* ログインボタン */
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background-color: #1a65cc;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        /* PC版リンク */
+        .pc-link {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .pc-link a {
+            color: #005bac;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        /* 白枠の説明文エリア */
+        .info-box {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* メンテナンス告知（赤文字） */
+        .alert-text {
+            color: #b32424;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        /* 各種見出しとテキスト */
+        .section-title {
+            font-size: 15px;
+            font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+        .section-title::before {
+            content: "■";
+            margin-right: 5px;
+            font-size: 14px;
+        }
+        .sub-info {
+            color: #666;
+            margin-left: 10px;
+            font-size: 13px;
+        }
+        .text-block {
+            margin-bottom: 15px;
+            padding-left: 5px;
+        }
+        .red-notice {
+            color: #b32424;
+        }
+        
+        /* リストスタイル */
+        .info-list {
+            padding-left: 20px;
+            margin: 10px 0;
+        }
+        .info-list li {
+            margin-bottom: 10px;
+        }
+        .underline-link {
+            text-decoration: underline;
+            color: #333;
+        }
+        .red-underline-link {
+            text-decoration: underline;
+            color: #b32424;
+        }
+        .bold-red {
+            color: #b32424;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- ロゴ部分 -->
+    <div class="logo-area">
+        <div>
+            <span class="logo-tdu">TDU</span>
+            <div class="logo-text">
+                <p class="logo-subtitle">学生ポータルサイト</p>
+                <p class="logo-title">DENDAI-UNIPA</p>
+            </div>
+        </div>
+        <div class="logo-subbrand">
+            UNIVERSAL PASSPORT <span style="color:#cc0000;">RX</span>
+        </div>
+    </div>
+
+    <!-- フォーム部分 -->
+    <form onsubmit="return false;">
+        <div class="form-group">
+            <input type="text" class="form-input" placeholder="User ID">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-input" placeholder="Password">
+            <span class="password-eye">👁</span>
+        </div>
+
+        <div class="login-options">
+            <span>自動ログイン情報を保存する</span>
+            <input type="checkbox">
+        </div>
+
+        <button class="btn-login">LOGIN</button>
+    </form>
+
+    <div class="pc-link">
+        <a href="#">ＰＣはこちら</a>
+    </div>
+
+    <!-- 下部の案内ボックス -->
+    <div class="info-box">
+        
+        <!-- メンテナンスのお知らせ -->
+        <div class="alert-text">
+            &lt;システムメンテナンスのお知らせ&gt;<br>
+            セキュリティ対応に伴うメンテナンス作業実施のため、以下の期間UNIPAのサービスを停止させていただきます。<br>
+            ご迷惑をお掛けいたしますが、ご理解ご協力宜しくお願い致します。
+        </div>
+
+        <!-- 学生向け案内 -->
+        <div class="section-title">学生</div>
+        <div class="text-block">
+            ログインにはユーザＩＤ（学籍番号）と共通パスワードが必要です。<br>
+            （※学籍番号の英文字は小文字で入力してください。）
+        </div>
+
+        <!-- 教職員向け案内 -->
+        <div class="section-title">教職員<span class="sub-info">（非常勤含む）</span></div>
+        <div class="text-block">
+            画面右の[教職員はこちら]からご利用ください。<br>
+            ログインにはユーザＩＤ（大学メールアドレス）、共通パスワード、ＰＩＮコード（二要素認証）が必要です。<br>
+            <span class="red-notice">（※従来の「職番」と「UNIPA専用ＰＷ」によるログインは出来ません。）</span><br>
+            2019年3月11日より、UNIPA（教職員用）のログイン方法が変更になりました。<br>
+            ログイン方法の詳細については、別途ご案内している<a href="#" class="underline-link">マニュアル</a>をご確認ください。<br>
+            ※上記マニュアルの参照には、［ユーザ名：職番］、［パスワード：共通パスワード］の認証が必要です。
+        </div>
+
+        <!-- 注意事項リスト -->
+        <ul class="info-list">
+            <li><a href="#" class="underline-link">学生のみスマートフォンからも利用できます。画面右の[スマートフォンはこちら]からご利用ください。</a>教職員及び保証人は、スマートフォンからの利用は出来ません。</li>
+            <li><a href="#" class="red-underline-link">UNIPAのスマートフォン用アプリは利用出来ません。</a></li>
+            <li>毎日、下記時間にシステムメンテナンスを行いますので、この間は、システムを利用出来ません。<br>
+                <span class="bold-red">停止時間：深夜3時00分～5時30分</span>
+            </li>
+        </ul>
+
+        <!-- 学外者案内 -->
+        <div class="section-title">学外者<span class="sub-info">（<a href="#" class="underline-link">シラバス閲覧</a>）</span></div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
