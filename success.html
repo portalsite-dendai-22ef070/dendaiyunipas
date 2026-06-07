@@ -144,11 +144,13 @@
             display: none; /* 最初は隠しておく */
         }
 
-        /* ドロワーメニュー本体 */
+        /* 💥 ドロワーメニュー本体（fixedに変えて横揺れを完全ブロック！） */
         .side-menu {
-            position: absolute;
-            top: 0; right: -85%; /* 最初は画面の右側に隠しておくよ！ */
-            width: 85%; height: 100%;
+            position: fixed; /* 👈 absolute から fixed に変更！これで画面全体に固定されるよ！ */
+            top: 0; 
+            right: -100%; /* 👈 -85% から -100% にして、画面の外に完全に隠す！ */
+            width: 85%; 
+            height: 100%;
             background-color: #ffffff;
             z-index: 101;
             box-sizing: border-box;
@@ -156,6 +158,11 @@
             overflow-y: auto; /* 縦長だからスクロールできるようにする！ */
             display: flex;
             flex-direction: column;
+        }
+
+        /* 💥 メニューが開いたときの移動先も右端ぴったり（right: 0）にする！ */
+        .side-menu.open {
+            right: 0;
         }
 
         /* メニューが開いたときのクラス */
