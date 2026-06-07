@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>出欠状況確認</title>
+    <style>
+        /* 全体のスタイル */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            background-color: #f4f5f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* スマホサイズ固定コンテナ */
+        .container {
+            width: 100%;
+            max-width: 412px;
+            background-color: #f4f5f9;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+
+        /* 青いヘッダー */
+        .header {
+            background-color: #1a65cc;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .header-title {
+            font-size: 18px;
+            font-weight: bold;
+            flex-grow: 1;
+            text-align: center;
+            margin-left: 20px;
+        }
+        .icon-btn {
+            font-size: 20px;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+        }
+
+        /* 上部の授業情報エリア */
+        .class-info-area {
+            background-color: #fff;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .class-time { font-size: 15px; color: #666; font-weight: bold; }
+        .class-code { font-size: 13px; color: #888; }
+        .class-title { font-size: 18px; font-weight: bold; color: #111; margin: 2px 0 6px 0; }
+        .class-detail { font-size: 14px; color: #555; display: flex; align-items: center; gap: 6px; }
+        .class-detail-icon { color: #1a65cc; font-size: 15px; }
+
+        /* 記号の説明エリア */
+        .legend-area {
+            padding: 15px 20px;
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* 出欠状況のテーブル（表） */
+        .table-container {
+            padding: 0 20px;
+        }
+        .attendance-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+        .attendance-table th {
+            background-color: #dbe7f9;
+            color: #1a65cc;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 12px 10px;
+            text-align: center;
+        }
+        .attendance-table td {
+            padding: 12px 10px;
+            font-size: 14px;
+            color: #333;
+            text-align: center;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        /* ◯マークを目立たせる */
+        .mark-circle {
+            font-size: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <a href="attendance.html" class="icon-btn">＜</a>
+        <div class="header-title">出欠状況確認</div>
+        <span class="icon-btn">☰</span>
+    </div>
+
+    <div class="class-info-area">
+        <div class="class-time">火2</div>
+        <div class="class-code">1103111301</div>
+        <div class="class-title">機構学 (EF)</div>
+        <div class="class-detail"><span class="class-detail-icon">👤</span> 高畑 智之</div>
+        <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率14%</div>
+    </div>
+
+    <div class="legend-area">
+        〇：出席 ▽：早退 △：遅刻 ×：欠席 休：休講<br>
+        －：授業対象外
+    </div>
+
+    <div class="table-container">
+        <table class="attendance-table">
+            <thead>
+                <tr>
+                    <th style="width: 15%;">回数</th>
+                    <th style="width: 25%;">実施日</th>
+                    <th style="width: 30%;">曜日時限</th>
+                    <th style="width: 30%;">出欠状況</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>04/14</td><td>火2</td><td></td></tr>
+                <tr><td>2</td><td>04/21</td><td>火2</td><td></td></tr>
+                <tr><td>3</td><td>04/28</td><td>火2</td><td></td></tr>
+                <tr><td>4</td><td>05/12</td><td>火2</td><td></td></tr>
+                <tr><td>5</td><td>05/19</td><td>火2</td><td></td></tr>
+                <tr><td>6</td><td>05/26</td><td>火2</td><td></td></tr>
+                <tr><td>7</td><td>06/02</td><td>火2</td><td class="mark-circle">〇</td></tr>
+                <tr><td>8</td><td>06/09</td><td>火2</td><td></td></tr>
+                <tr><td>9</td><td>06/16</td><td>火2</td><td></td></tr>
+                <tr><td>10</td><td>06/23</td><td>火2</td><td></td></tr>
+                <tr><td>11</td><td>06/30</td><td>火2</td><td></td></tr>
+                <tr><td>12</td><td>07/07</td><td>火2</td><td></td></tr>
+                <tr><td>13</td><td>07/14</td><td>火2</td><td></td></tr>
+                <tr><td>14</td><td>07/21</td><td>火2</td><td></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>
