@@ -84,13 +84,13 @@
         const correctPass = "unipa123";
 
         // 判定スタート！
-        if (userInput === correctUser && passInput === correctPass) {
-            alert('🎉 ログイン成功ーーっ！次のページに進むよ！');
-            // 実際に次のページに飛ばしたいときは、下のURLを書き換えてね！
-            // window.location.href = "success.html"; 
-        } else {
-            alert('❌ ユーザーIDまたはパスワードが違います！');
-        }
+        // 判定スタート！
+if (userInput === correctUser && passInput === correctPass) {
+    // 💥 アラートの代わりに、作った success.html に画面を切り替えるよ！
+    window.location.href = "success.html"; 
+} else {
+    alert('❌ ユーザーIDまたはパスワードが違います！');
+}
     </script>
 
 </body>
