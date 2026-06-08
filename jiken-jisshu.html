@@ -111,7 +111,7 @@
 
         // 翌日を迎えていたら「〇」をつける！
         if (today >= nextDay) {
-            statusCell.textContent = '〇';
+            statusCell.textContent = ' ';
             statusCell.classList.add('mark-circle');
             attendCount++; 
         }
@@ -128,7 +128,7 @@
     // 出席率をリアルタイムに計算！
     let finalRate = 0;
     if (pastClassCount > 0) {
-        finalRate = Math.round((attendCount / pastClassCount) * 100);
+        finalRate = Math.round((attendCount / pastClassCount) * 0);
     }
 
     document.getElementById('realAttendanceRate').textContent = finalRate + '%';
