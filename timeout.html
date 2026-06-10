@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ポータルシステム - セッションタイムアウト</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            background-color: #f4f5f9;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        /* スマホサイズ固定コンテナ */
+        .container {
+            width: 100%;
+            max-width: 412px;
+            background-color: #f4f5f9;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 60px 20px 20px 20px;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* 赤いビックリマークの丸 */
+        .alert-icon-circle {
+            width: 80px;
+            height: 80px;
+            background-color: #ff0000;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(255, 0, 0, 0.2);
+        }
+
+        /* メッセージボックス */
+        .message-box {
+            background-color: #fff;
+            border: 1px solid #e2e6f0;
+            padding: 25px 20px;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #333;
+            letter-spacing: 0.5px;
+            margin-bottom: 40px;
+        }
+
+        /* 下部の白いフッター領域 */
+        .footer-area {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #fff;
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
+            padding: 30px 20px 40px 20px;
+            box-sizing: border-box;
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.03);
+            display: flex;
+            justify-content: center;
+        }
+
+        /* ログインボタン */
+        .login-btn {
+            width: 100%;
+            max-width: 350px;
+            background-color: #fff;
+            border: 1.5px solid #1a65cc;
+            color: #1a65cc;
+            text-align: center;
+            padding: 14px 0;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 25px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.2s;
+        }
+        .login-btn:active {
+            background-color: #f0f5ff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="alert-icon-circle">!</div>
+
+    <div class="message-box">
+        長時間操作が行われなかったため、自動的にログアウトされました。<br>
+        ログイン画面より再度ログイン認証を行ってください。
+    </div>
+
+    <div class="footer-area">
+        <a href="index.html" class="login-btn">ログイン</a>
+    </div>
+
+</div>
+
+</body>
+</html>
