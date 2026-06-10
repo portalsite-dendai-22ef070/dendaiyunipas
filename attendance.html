@@ -2,6 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>出欠状況確認一覧</title>
     <style>
@@ -197,7 +198,7 @@
 
         <div class="date-row">
             <div class="date-label">出席率基準日</div>
-            <div class="date-value">2026/06/07</div>
+            <div class="date-value" id="today-standard-date">2026/06/10</div>
         </div>
 
         <div class="count-box">
@@ -212,7 +213,7 @@
             <div class="class-code">1102881301</div>
             <div class="class-title">機械工学実験実習I (EF)</div>
             <div class="class-detail"><span class="class-detail-icon">👤</span> 小貫 祐介</div>
-            <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率%</div>
+            <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率<span id="rate-1">%</span></div>
             <span class="card-arrow">＞</span>
         </a>
 
@@ -221,7 +222,7 @@
             <div class="class-code">1103111301</div>
             <div class="class-title">機構学 (EF)</div>
             <div class="class-detail"><span class="class-detail-icon">👤</span> 高畑 智之</div>
-            <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率14%</div>
+            <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率<span id="rate-2">%</span></div>
             <span class="card-arrow">＞</span>
         </a>
 
@@ -230,85 +231,194 @@
             <div class="class-code">1111161301</div>
             <div class="class-title">キャリアデザイン (EF2022～)(前後期科目)</div>
             <div class="class-detail"><span class="class-detail-icon">👤</span> 藤田 壽憲</div>
-            <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率%</div>
+            <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率<span id="rate-3">%</span></div>
             <span class="card-arrow">＞</span>
         </a>
 
-        <a href="#" class="class-card">
+        <a href="kikai-youso.html" class="class-card">
             <div class="class-time">火4</div>
             <div class="class-code">1111041301</div>
             <div class="class-title">機械要素設計 (EF2022～)</div>
             <div class="class-detail"><span class="class-detail-icon">👤</span> 高畑 智之</div>
-            <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率14%</div>
+            <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率<span id="rate-4">%</span></div>
             <span class="card-arrow">＞</span>
         </a>
 
-        <a href="#" class="class-card">
+        <a href="bibun-houteishiki.html" class="class-card">
             <div class="class-time">火5</div>
             <div class="class-code">1105981504</div>
             <div class="class-title">微分方程式I (再履修クラス／EK・EF)</div>
             <div class="class-detail"><span class="class-detail-icon">👤</span> 中島 幸喜</div>
-            <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率%</div>
+            <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率<span id="rate-5">%</span></div>
             <span class="card-arrow">＞</span>
         </a>
 
-        <a href="#" class="class-card">
+        <a href="kakuritsu-toukei.html" class="class-card">
             <div class="class-time">水1</div>
             <div class="class-code">1102551501</div>
             <div class="class-title">確率・統計II (EK・EF)</div>
             <div class="class-detail"><span class="class-detail-icon">👤</span> 山本 現</div>
-            <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率%</div>
+            <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率<span id="rate-6">%</span></div>
             <span class="card-arrow">＞</span>
         </a>
 
-        <a href="#" class="class-card">
+        <a href="gijutsusha-rinri.html" class="class-card">
             <div class="class-time">水3</div>
             <div class="class-code">11G0401501</div>
             <div class="class-title">技術者倫理 (水3：西條クラス)</div>
             <div class="class-detail"><span class="class-detail-icon">👤</span> 西條 玲奈</div>
-            <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率43%</div>
+            <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率<span id="rate-7">%</span></div>
             <span class="card-arrow">＞</span>
         </a>
 
-        <a href="#" class="class-card">
+        <a href="sekkei-seizu.html" class="class-card">
             <div class="class-time">木1 木2</div>
             <div class="class-code">1106511301</div>
             <div class="class-title">先端機械設計製図I</div>
             <div class="class-detail"><span class="class-detail-icon">👤</span> 小林 宏史</div>
-            <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率25%</div>
+            <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率<span id="rate-8">%</span></div>
             <span class="card-arrow">＞</span>
         </a>
 
-        <a href="#" class="class-card">
+        <a href="sentan-jissen.html" class="class-card">
             <div class="class-time">木3 木4</div>
             <div class="class-code">1106491302</div>
             <div class="class-title">先端機械実験実習I</div>
             <div class="class-detail"><span class="class-detail-icon">👤</span> 森田 晋也</div>
-            <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率%</div>
+            <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率<span id="rate-9">%</span></div>
             <span class="card-arrow">＞</span>
         </a>
 
-        <a href="#" class="class-card">
+        <a href="seigyo-kougaku.html" class="class-card">
             <div class="class-time">金1</div>
             <div class="class-code">1104591301</div>
             <div class="class-title">制御工学I (EF)</div>
             <div class="class-detail"><span class="class-detail-icon">👤</span> 藤田 壽憲</div>
-            <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率%</div>
+            <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率<span id="rate-10">%</span></div>
             <span class="card-arrow">＞</span>
         </a>
 
-        <a href="#" class="class-card">
+        <a href="zairyogu-rikigaku.html" class="class-card">
             <div class="class-time">金3 金4</div>
             <div class="class-code">1103981302</div>
             <div class="class-title">材料力学Iおよび演習 (EF)</div>
             <div class="class-detail"><span class="class-detail-icon">👤</span> 柳田 明</div>
-            <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率13%</div>
+            <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率<span id="rate-11">%</span></div>
             <span class="card-arrow">＞</span>
         </a>
 
     </div>
 
 </div>
+
+<script>
+    const today = new Date();
+
+    // 基準日表示を今日の日付に自動で書き換えるよ！
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    document.getElementById('today-standard-date').textContent = `${yyyy}/${mm}/${dd}`;
+
+    // 出席率をリアルタイム＆分母可変で計算する共通魔法関数！
+    function calculateLiveRate(dateArray) {
+        let attend = 0;
+        let past = 0;
+
+        dateArray.forEach(dStr => {
+            const classDate = new Date(dStr);
+            
+            // 判定1：授業の「翌日」を迎えているなら出席（〇）カウント
+            const nextDay = new Date(classDate);
+            nextDay.setDate(nextDay.getDate() + 1);
+            if (today >= nextDay) {
+                attend++;
+            }
+
+            // 判定2：授業当日の「23:59:59」を過ぎていたら実施済み（分母）カウント
+            const classEnd = new Date(classDate);
+            classEnd.setHours(23, 59, 59, 999);
+            if (today > classEnd) {
+                past++;
+            }
+        });
+
+        // まだ1回も授業が実施されていない場合は「%」のみにするよ！
+        return past > 0 ? Math.round((attend / past) * 100) + '%' : '%';
+    }
+
+    // 🗓 各科目のPDF年間スケジュールに基づく日付データ配列を全セット！
+
+    // 1. 機械工学実験実習I (月1月2・連続コマのため2回分ずつ登録)
+    const dates1 = [
+        "2026-04-13", "2026-04-13", "2026-04-20", "2026-04-20", "2026-04-27", "2026-04-27",
+        "2026-05-11", "2026-05-11", "2026-05-18", "2026-05-18", "2026-05-25", "2026-05-25",
+        "2026-06-01", "2026-06-01", "2026-06-08", "2026-06-08", "2026-06-15", "2026-06-15",
+        "2026-06-22", "2026-06-22", "2026-06-29", "2026-06-29", "2026-07-06", "2026-07-06",
+        "2026-07-13", "2026-07-13", "2026-07-20", "2026-07-20"
+    ];
+
+    // 2. 機構学 (火2・5/5休講スキップ)
+    const dates2 = [
+        "2026-04-14", "2026-04-21", "2026-04-28", "2026-05-12", "2026-05-19", "2026-05-26",
+        "2026-06-02", "2026-06-09", "2026-06-16", "2026-06-23", "2026-06-30", "2026-07-07",
+        "2026-07-14", "2026-07-21"
+    ];
+
+    // 3. キャリアデザイン (火3・変則全7回・6/9開始)
+    const dates3 = [
+        "2026-06-09", "2026-06-16", "2026-06-23", "2026-06-30", "2026-07-07", "2026-07-14", "2026-07-21"
+    ];
+
+    // 4. 機械要素設計 (火4・5/5休講スキップ)
+    const dates4 = [...dates2];
+
+    // 5. 微分方程式I (火5・5/5休講スキップ)
+    const dates5 = [...dates2];
+
+    // 6. 確率・統計II (水1・4/29昭和の日も実施・全14回)
+    const dates6 = [
+        "2026-04-15", "2026-04-22", "2026-04-29", "2026-05-13", "2026-05-20", "2026-05-27",
+        "2026-06-03", "2026-06-10", "2026-06-17", "2026-06-24", "2026-07-01", "2026-07-08",
+        "2026-07-15", "2026-07-22"
+    ];
+
+    // 7. 技術者倫理 (水3・確率統計と同スケジュール)
+    const dates7 = [...dates6];
+
+    // 8. 先端機械設計製図I (木1木2・スキップなし全14回)
+    const dates8 = [
+        "2026-04-16", "2026-04-23", "2026-04-30", "2026-05-14", "2026-05-21", "2026-05-28",
+        "2026-06-04", "2026-06-11", "2026-06-18", "2026-06-25", "2026-07-02", "2026-07-09",
+        "2026-07-16", "2026-07-23"
+    ];
+
+    // 9. 先端機械実験実習I (木3木4・設計製図と同スケジュール)
+    const dates9 = [...dates8];
+
+    // 10. 制御工学I (金1・4/10開始、5/1振替休校スキップ全14回)
+    const dates10 = [
+        "2026-04-10", "2026-04-17", "2026-04-24", "2026-05-08", "2026-05-15", "2026-05-22",
+        "2026-05-29", "2026-06-05", "2026-06-12", "2026-06-19", "2026-06-26", "2026-07-03",
+        "2026-07-10", "2026-07-17"
+    ];
+
+    // 11. 材料力学Iおよび演習 (金3金4・制御工学と同スケジュール)
+    const dates11 = [...dates10];
+
+    // 💥 計算結果をそれぞれのカードの画面にリアルタイムでねじ込みます！
+    document.getElementById('rate-1').textContent = calculateLiveRate(dates1);
+    document.getElementById('rate-2').textContent = calculateLiveRate(dates2);
+    document.getElementById('rate-3').textContent = calculateLiveRate(dates3);
+    document.getElementById('rate-4').textContent = calculateLiveRate(dates4);
+    document.getElementById('rate-5').textContent = calculateLiveRate(dates5);
+    document.getElementById('rate-6').textContent = calculateLiveRate(dates6);
+    document.getElementById('rate-7').textContent = calculateLiveRate(dates7);
+    document.getElementById('rate-8').textContent = calculateLiveRate(dates8);
+    document.getElementById('rate-9').textContent = calculateLiveRate(dates9);
+    document.getElementById('rate-10').textContent = calculateLiveRate(dates10);
+    document.getElementById('rate-11').textContent = calculateLiveRate(dates11);
+</script>
 
 </body>
 </html>
