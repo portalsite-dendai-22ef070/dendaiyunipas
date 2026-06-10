@@ -40,7 +40,7 @@
         <div class="class-code">1106491302</div>
         <div class="class-title">先端機械実験実習I</div>
         <div class="class-detail"><span class="class-detail-icon">👤</span> 森田 晋也</div>
-        <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率 <span id="realAttendanceRate">%</span></div>
+        <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率 <span id="realAttendanceRate">0%</span></div>
     </div>
 
     <div class="legend-area">
@@ -58,20 +58,20 @@
                 </tr>
             </thead>
             <tbody>
-                <tr data-date="2026-04-16"><td>1</td><td>04/16</td><td>木3</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-04-23"><td>2</td><td>04/23</td><td>木3</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-04-30"><td>3</td><td>04/30</td><td>木3</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-05-14"><td>4</td><td>05/14</td><td>木3</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-05-21"><td>5</td><td>05/21</td><td>木3</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-05-28"><td>6</td><td>05/28</td><td>木3</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-06-04"><td>7</td><td>06/04</td><td>木3</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-06-11"><td>8</td><td>06/11</td><td>木3</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-06-18"><td>9</td><td>06/18</td><td>木3</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-06-25"><td>10</td><td>06/25</td><td>木3</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-07-02"><td>11</td><td>07/02</td><td>木3</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-07-09"><td>12</td><td>07/09</td><td>木3</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-07-16"><td>13</td><td>07/16</td><td>木3</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-07-23"><td>14</td><td>07/23</td><td>木3</td><td class="status-cell"></td></tr>
+                <tr><td>1</td><td>04/16</td><td>木3</td><td></td></tr>
+                <tr><td>2</td><td>04/23</td><td>木3</td><td></td></tr>
+                <tr><td>3</td><td>04/30</td><td>木3</td><td></td></tr>
+                <tr><td>4</td><td>05/14</td><td>木3</td><td></td></tr>
+                <tr><td>5</td><td>05/21</td><td>木3</td><td></td></tr>
+                <tr><td>6</td><td>05/28</td><td>木3</td><td></td></tr>
+                <tr><td>7</td><td>06/04</td><td>木3</td><td></td></tr>
+                <tr><td>8</td><td>06/11</td><td>木3</td><td></td></tr>
+                <tr><td>9</td><td>06/18</td><td>木3</td><td></td></tr>
+                <tr><td>10</td><td>06/25</td><td>木3</td><td></td></tr>
+                <tr><td>11</td><td>07/02</td><td>木3</td><td></td></tr>
+                <tr><td>12</td><td>07/09</td><td>木3</td><td></td></tr>
+                <tr><td>13</td><td>07/16</td><td>木3</td><td></td></tr>
+                <tr><td>14</td><td>07/23</td><td>木3</td><td></td></tr>
             </tbody>
         </table>
     </div>
@@ -79,40 +79,22 @@
 </div>
 
 <script>
-    const today = new Date();
-    const rows = document.querySelectorAll('tbody tr');
-    let attendCount = 0;
-    let pastClassCount = 0;
+    (function() {
+        const TIMEOUT_DURATION = 300000; 
+        let logoutTimer;
 
-    rows.forEach(row => {
-        const classDateStr = row.getAttribute('data-date');
-        const classDate = new Date(classDateStr);
-        const statusCell = row.querySelector('.status-cell');
-
-        const nextDay = new Date(classDate);
-        nextDay.setDate(nextDay.getDate() + 1);
-
-        if (today >= nextDay) {
-            statusCell.textContent = '〇';
-            statusCell.classList.add('mark-circle');
-            attendCount++; 
+        function resetLogoutTimer() {
+            clearTimeout(logoutTimer);
+            logoutTimer = setTimeout(function() {
+                window.location.href = 'timeout.html';
+            }, TIMEOUT_DURATION);
         }
 
-        const classEnd = new Date(classDate);
-        classEnd.setHours(23, 59, 59, 999);
+        window.addEventListener('touchstart', resetLogoutTimer);
+        window.addEventListener('click', resetLogoutTimer);
 
-        if (today > classEnd) {
-            pastClassCount++;
-        }
-    });
-
-    let finalRate = 0;
-    if (pastClassCount > 0) {
-        finalRate = Math.round((attendCount / pastClassCount) * 100);
-        document.getElementById('realAttendanceRate').textContent = finalRate + '%';
-    } else {
-        document.getElementById('realAttendanceRate').textContent = '%';
-    }
+        resetLogoutTimer();
+    })();
 </script>
 
 </body>

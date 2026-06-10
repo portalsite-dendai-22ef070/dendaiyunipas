@@ -102,10 +102,13 @@
             font-weight: bold;
             margin-bottom: 5px;
         }
+        .day-item {
+            padding-bottom: 2px;
+        }
+        /* 💥 現在の曜日に自動でつく青ピカクラス */
         .day-item.active {
             color: #1a65cc;
             border-bottom: 2px solid #1a65cc;
-            padding-bottom: 2px;
         }
 
         /* 時間割グリッドエリア */
@@ -134,7 +137,7 @@
             border: 1px solid #e2e6f0;
         }
 
-        /* 授業が入っているマス（💥 divタグにしてリンク機能を除去！） */
+        /* 授業が入っているマス（divタグでリンクなし） */
         .class-cell {
             background-color: #fff;
             border-radius: 4px;
@@ -213,12 +216,12 @@
 
     <div class="days-header">
         <div></div>
-        <div class="day-item">月</div>
-        <div class="day-item">火</div>
-        <div class="day-item active">水</div>
-        <div class="day-item">木</div>
-        <div class="day-item">金</div>
-        <div class="day-item">土</div>
+        <div class="day-item" id="day-1">月</div>
+        <div class="day-item" id="day-2">火</div>
+        <div class="day-item" id="day-3">水</div>
+        <div class="day-item" id="day-4">木</div>
+        <div class="day-item" id="day-5">金</div>
+        <div class="day-item" id="day-6">土</div>
     </div>
 
     <div class="timetable-grid">
@@ -245,31 +248,46 @@
 </div>
 
 <script>
+    // ===================================================
+    // 📅 曜日を自動で青く切り替えるロジック！
+    // ===================================================
     (function() {
-        // 🚨 制限時間の設定（5分間 ＝ 300000 ミリ秒）
-        // 動作テストをすぐしたい場合は、ここを「10000」（10秒）に変えるとすぐ確認できるよ！
-        const TIMEOUT_DURATION = 300000; 
+        // 現在の日付から曜日番号を取得 (0:日, 1:月, 2:火, 3:水, 4:木, 5:金, 6:土)
+        const currentDay = new Date().getDay();
         
+        // 日曜日(0)以外なら、該当する曜日の要素に「active」クラスをつけて青く光らせる！
+        if (currentDay >= 1 && currentDay <= 6) {
+            const todayElement = document.getElementById('day-' + currentDay);
+            if (todayElement) {
+                todayElement.classList.add('active');
+            }
+        } else {
+            // もし日曜日なら、とりあえず一番最初の「月曜日」をデフォルトで光らせておくね！
+            const monElement = document.getElementById('day-1');
+            if (monElement) monElement.classList.add('active');
+        }
+    })();
+
+    // ===================================================
+    // ⏰ 5分放置で警告画面（timeout.html）に飛ばす機能！
+    // ===================================================
+    (function() {
+        const TIMEOUT_DURATION = 300000; // 5分間 (300000ms)
         let logoutTimer;
 
-        // タイマーをリセットして最初から数え直す関数
         function resetLogoutTimer() {
             clearTimeout(logoutTimer);
             logoutTimer = setTimeout(function() {
-                // 💥 5分経ったら、さっき作ったタイムアウト専用画面（timeout.html）へジャンプ！
                 window.location.href = 'timeout.html';
             }, TIMEOUT_DURATION);
         }
 
-        // 画面をタップ（クリックやタッチ）したら操作があったとみなしてタイマーをリセット！
         window.addEventListener('touchstart', resetLogoutTimer);
         window.addEventListener('click', resetLogoutTimer);
 
-        // ページが開かれた瞬間に、最初のタイマースタート！
         resetLogoutTimer();
     })();
 </script>
-
 
 </body>
 </html>

@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="format-detection" content="telephone=no">
-    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>出欠状況確認</title>
     <style>
-        /* デザインは統一感バッチリにしてあるよ！ */
         body { margin: 0; padding: 0; font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #f4f5f9; color: #333; display: flex; justify-content: center; }
         .container { width: 100%; max-width: 412px; background-color: #f4f5f9; box-sizing: border-box; display: flex; flex-direction: column; min-height: 100vh; padding-bottom: 40px; }
         .header { background-color: #1a65cc; color: white; display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; position: sticky; top: 0; z-index: 10; }
@@ -42,7 +40,7 @@
         <div class="class-code">1102881301</div>
         <div class="class-title">機械工学実験実習I (EF)</div>
         <div class="class-detail"><span class="class-detail-icon">👤</span> 小貫 祐介</div>
-        <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率 <span id="realAttendanceRate">%</span></div>
+        <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率 <span id="realAttendanceRate">0%</span></div>
     </div>
 
     <div class="legend-area">
@@ -60,34 +58,34 @@
                 </tr>
             </thead>
             <tbody>
-                <tr data-date="2026-04-13"><td>1</td><td>04/13</td><td>月1</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-04-13"><td>2</td><td>04/13</td><td>月2</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-04-20"><td>3</td><td>04/20</td><td>月1</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-04-20"><td>4</td><td>04/20</td><td>月2</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-04-27"><td>5</td><td>04/27</td><td>月1</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-04-27"><td>6</td><td>04/27</td><td>月2</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-05-11"><td>7</td><td>05/11</td><td>月1</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-05-11"><td>8</td><td>05/11</td><td>月2</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-05-18"><td>9</td><td>05/18</td><td>月1</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-05-18"><td>10</td><td>05/18</td><td>月2</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-05-25"><td>11</td><td>05/25</td><td>月1</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-05-25"><td>12</td><td>05/25</td><td>月2</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-06-01"><td>13</td><td>06/01</td><td>月1</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-06-01"><td>14</td><td>06/01</td><td>月2</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-06-08"><td>15</td><td>06/08</td><td>月1</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-06-08"><td>16</td><td>06/08</td><td>月2</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-06-15"><td>17</td><td>06/15</td><td>月1</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-06-15"><td>18</td><td>06/15</td><td>月2</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-06-22"><td>19</td><td>06/22</td><td>月1</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-06-22"><td>20</td><td>06/22</td><td>月2</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-06-29"><td>21</td><td>06/29</td><td>月1</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-06-29"><td>22</td><td>06/29</td><td>月2</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-07-06"><td>23</td><td>07/06</td><td>月1</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-07-06"><td>24</td><td>07/06</td><td>月2</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-07-13"><td>25</td><td>07/13</td><td>月1</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-07-13"><td>26</td><td>07/13</td><td>月2</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-07-20"><td>27</td><td>07/20</td><td>月1</td><td class="status-cell"></td></tr>
-                <tr data-date="2026-07-20"><td>28</td><td>07/20</td><td>月2</td><td class="status-cell"></td></tr>
+                <tr><td>1</td><td>04/13</td><td>月1</td><td></td></tr>
+                <tr><td>2</td><td>04/13</td><td>月2</td><td></td></tr>
+                <tr><td>3</td><td>04/20</td><td>月1</td><td></td></tr>
+                <tr><td>4</td><td>04/20</td><td>月2</td><td></td></tr>
+                <tr><td>5</td><td>04/27</td><td>月1</td><td></td></tr>
+                <tr><td>6</td><td>04/27</td><td>月2</td><td></td></tr>
+                <tr><td>7</td><td>05/11</td><td>月1</td><td></td></tr>
+                <tr><td>8</td><td>05/11</td><td>月2</td><td></td></tr>
+                <tr><td>9</td><td>05/18</td><td>月1</td><td></td></tr>
+                <tr><td>10</td><td>05/18</td><td>月2</td><td></td></tr>
+                <tr><td>11</td><td>05/25</td><td>月1</td><td></td></tr>
+                <tr><td>12</td><td>05/25</td><td>月2</td><td></td></tr>
+                <tr><td>13</td><td>06/01</td><td>月1</td><td></td></tr>
+                <tr><td>14</td><td>06/01</td><td>月2</td><td></td></tr>
+                <tr><td>15</td><td>06/08</td><td>月1</td><td></td></tr>
+                <tr><td>16</td><td>06/08</td><td>月2</td><td></td></tr>
+                <tr><td>17</td><td>06/15</td><td>月1</td><td></td></tr>
+                <tr><td>18</td><td>06/15</td><td>月2</td><td></td></tr>
+                <tr><td>19</td><td>06/22</td><td>月1</td><td></td></tr>
+                <tr><td>20</td><td>06/22</td><td>月2</td><td></td></tr>
+                <tr><td>21</td><td>06/29</td><td>月1</td><td></td></tr>
+                <tr><td>22</td><td>06/29</td><td>月2</td><td></td></tr>
+                <tr><td>23</td><td>07/06</td><td>月1</td><td></td></tr>
+                <tr><td>24</td><td>07/06</td><td>月2</td><td></td></tr>
+                <tr><td>25</td><td>07/13</td><td>月1</td><td></td></tr>
+                <tr><td>26</td><td>07/13</td><td>月2</td><td></td></tr>
+                <tr><td>27</td><td>07/20</td><td>月1</td><td></td></tr>
+                <tr><td>28</td><td>07/20</td><td>月2</td><td></td></tr>
             </tbody>
         </table>
     </div>
@@ -95,67 +93,20 @@
 </div>
 
 <script>
-    const today = new Date();
-    const rows = document.querySelectorAll('tbody tr');
-    let attendCount = 0;
-    let pastClassCount = 0;
-
-    rows.forEach(row => {
-        const classDateStr = row.getAttribute('data-date');
-        const classDate = new Date(classDateStr);
-        const statusCell = row.querySelector('.status-cell');
-
-        // 授業の「翌日」を計算！
-        const nextDay = new Date(classDate);
-        nextDay.setDate(nextDay.getDate() + 1);
-
-        // 翌日を迎えていたら「〇」をつける！
-        if (today >= nextDay) {
-            statusCell.textContent = ' ';
-            statusCell.classList.add('mark-circle');
-            attendCount++; 
-        }
-
-        // 授業日の23:59:59を過ぎていたら実施済みカウントを増やす！
-        const classEnd = new Date(classDate);
-        classEnd.setHours(23, 59, 59, 999);
-
-        if (today > classEnd) {
-            pastClassCount++;
-        }
-    });
-
-    // 出席率をリアルタイムに計算！
-    let finalRate = 0;
-    if (pastClassCount > 0) {
-        finalRate = Math.round((attendCount / pastClassCount) * 0);
-    }
-
-    document.getElementById('realAttendanceRate').textContent = finalRate + '%';
-</script>
-
-<script>
     (function() {
-        // 🚨 制限時間の設定（5分間 ＝ 300000 ミリ秒）
-        // 動作テストをすぐしたい場合は、ここを「10000」（10秒）に変えるとすぐ確認できるよ！
         const TIMEOUT_DURATION = 300000; 
-        
         let logoutTimer;
 
-        // タイマーをリセットして最初から数え直す関数
         function resetLogoutTimer() {
             clearTimeout(logoutTimer);
             logoutTimer = setTimeout(function() {
-                // 💥 5分経ったら、さっき作ったタイムアウト専用画面（timeout.html）へジャンプ！
                 window.location.href = 'timeout.html';
             }, TIMEOUT_DURATION);
         }
 
-        // 画面をタップ（クリックやタッチ）したら操作があったとみなしてタイマーをリセット！
         window.addEventListener('touchstart', resetLogoutTimer);
         window.addEventListener('click', resetLogoutTimer);
 
-        // ページが開かれた瞬間に、最初のタイマースタート！
         resetLogoutTimer();
     })();
 </script>
