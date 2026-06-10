@@ -4,31 +4,29 @@
     <meta charset="UTF-8">
     <meta name="format-detection" content="telephone=no">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>出欠状況一覧</title>
+    <title>出欠状況確認一覧</title>
     <style>
         body { margin: 0; padding: 0; font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #f4f5f9; color: #333; display: flex; justify-content: center; }
         .container { width: 100%; max-width: 412px; background-color: #f4f5f9; box-sizing: border-box; display: flex; flex-direction: column; min-height: 100vh; padding-bottom: 40px; }
         .header { background-color: #1a65cc; color: white; display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; position: sticky; top: 0; z-index: 10; }
         .header-title { font-size: 18px; font-weight: bold; flex-grow: 1; text-align: center; margin-left: 20px; }
         .icon-btn { font-size: 20px; cursor: pointer; text-decoration: none; color: white; }
-        
-        .info-bar { background-color: #fff; padding: 12px 20px; font-size: 14px; color: #666; border-bottom: 1px solid #e2e6f0; }
-        .standard-date { font-weight: bold; color: #333; }
-
-        .list-container { padding: 15px 15px; display: flex; flex-direction: column; gap: 10px; }
-        
-        /* 各科目のカードスタイル */
-        .class-card { background-color: #fff; border-radius: 8px; padding: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.04); border: 1px solid #e2e6f0; text-decoration: none; color: inherit; display: flex; justify-content: space-between; align-items: center; }
-        .class-info { display: flex; flex-direction: column; gap: 4px; }
-        .class-time { font-size: 12px; color: #888; font-weight: bold; }
-        .class-title { font-size: 15px; font-weight: bold; color: #111; }
-        .class-teacher { font-size: 13px; color: #666; }
-        
-        .rate-area { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
-        .rate-label { font-size: 11px; color: #999; }
-        .rate-num { font-size: 20px; font-weight: bold; color: #1a65cc; }
-        .arrow { color: #ccc; font-size: 16px; margin-left: 10px; }
-        .right-block { display: flex; align-items: center; }
+        .filter-area { padding: 15px 20px; }
+        .filter-label { font-size: 14px; font-weight: bold; margin-bottom: 8px; }
+        .select-box { width: 100%; padding: 12px 15px; font-size: 15px; border: 1px solid #ccc; border-radius: 8px; background-color: #fff; color: #333; appearance: none; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path d='M0 3l5 5 5-5z' fill='%231a65cc'/></svg>"); background-repeat: no-repeat; background-position: right 15px center; background-size: 12px; box-sizing: border-box; margin-bottom: 15px; }
+        .date-row { display: flex; background-color: #fff; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; margin-bottom: 15px; }
+        .date-label { padding: 12px 15px; font-size: 14px; font-weight: bold; color: #333; flex-grow: 1; }
+        .date-value { background-color: #f0f0f0; padding: 12px 20px; font-size: 14px; color: #333; }
+        .count-box { background-color: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px 15px; font-size: 15px; text-align: right; box-sizing: border-box; margin-bottom: 15px; }
+        .count-num { font-size: 18px; font-weight: bold; margin-right: 2px; }
+        .card-list { display: flex; flex-direction: column; gap: 12px; padding: 0 20px; }
+        .class-card { background-color: #fff; border-radius: 12px; padding: 15px 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.03); border: 1px solid #e8e8e8; position: relative; text-decoration: none; color: #333; display: flex; flex-direction: column; gap: 6px; }
+        .class-time { font-size: 13px; color: #666; font-weight: bold; }
+        .class-code { font-size: 12px; color: #888; }
+        .class-title { font-size: 15px; font-weight: bold; color: #111; padding-right: 20px; margin: 2px 0; }
+        .class-detail { font-size: 13px; color: #555; display: flex; align-items: center; gap: 6px; }
+        .class-detail-icon { color: #1a65cc; font-size: 14px; }
+        .card-arrow { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: #1a65cc; font-weight: bold; font-size: 16px; }
     </style>
 </head>
 <body>
@@ -37,180 +35,102 @@
 
     <div class="header">
         <a href="success.html" class="icon-btn">＜</a>
-        <div class="header-title">出欠状況確認</div>
+        <div class="header-title">出欠状況確認一覧</div>
         <span class="icon-btn">☰</span>
     </div>
 
-    <div class="info-bar">
-        基準日：<span id="today-standard-date" class="standard-date">2026/04/10</span> 現現在
+    <div class="filter-area">
+        <div class="filter-label">開講年度学期</div>
+        <select class="select-box"><option>2026年度 前期</option></select>
+        <div class="date-row">
+            <div class="date-label">出席率基準日</div>
+            <div class="date-value" id="dynamic-base-date">2026/06/08</div>
+        </div>
+        <div class="count-box"><span class="count-num">11</span>件</div>
     </div>
 
-    <div class="list-container">
-
+    <div class="card-list">
+        
         <a href="jiken-jisshu.html" class="class-card">
-            <div class="class-info">
-                <div class="class-time">月1 月2</div>
-                <div class="class-title">機械工学実験実習I (EF)</div>
-                <div class="class-teacher">小貫 祐介</div>
-            </div>
-            <div class="right-block">
-                <div class="rate-area">
-                    <div class="rate-label">出席率</div>
-                    <div class="rate-num" id="rate-1">%</div>
-                </div>
-                <span class="arrow">＞</span>
-            </div>
+            <div class="class-time">月1 月2</div>
+            <div class="class-code">1102881301</div>
+            <div class="class-title">機械工学実験実習I (EF)</div>
+            <div class="class-detail"><span class="class-detail-icon">👤</span> 小貫 祐介</div>
+            <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率<span id="rate-jisshu">0%</span></div>
+            <span class="card-arrow">＞</span>
         </a>
 
-        <div class="class-card">
-            <div class="class-info">
-                <div class="class-time">火2</div>
-                <div class="class-title">機構学 (EF)</div>
-                <div class="class-teacher">門田 祥悟</div>
-            </div>
-            <div class="right-block">
-                <div class="rate-area">
-                    <div class="rate-label">出席率</div>
-                    <div class="rate-num" id="rate-2">%</div>
-                </div>
-                <span class="arrow">＞</span>
-            </div>
-        </div>
+        <a href="kikougaku.html" class="class-card">
+            <div class="class-time">火2</div>
+            <div class="class-code">1103111301</div>
+            <div class="class-title">機構学 (EF)</div>
+            <div class="class-detail"><span class="class-detail-icon">👤</span> 高畑 智之</div>
+            <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率<span id="rate-kikou">%</span></div>
+            <span class="card-arrow">＞</span>
+        </a>
 
-        <div class="class-card">
-            <div class="class-info">
-                <div class="class-time">火3</div>
-                <div class="class-title">キャリアデザイン (EF2022～)</div>
-                <div class="class-teacher">外部講師</div>
-            </div>
-            <div class="right-block">
-                <div class="rate-area">
-                    <div class="rate-label">出席率</div>
-                    <div class="rate-num" id="rate-3">%</div>
-                </div>
-                <span class="arrow">＞</span>
-            </div>
-        </div>
+        <a href="#" class="class-card">
+            <div class="class-time">火3</div><div class="class-code">1111161301</div>
+            <div class="class-title">キャリアデザイン (EF2022～)(前後期科目)</div>
+            <div class="class-detail"><span class="class-detail-icon">👤</span> 藤田 壽憲</div>
+            <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率<span id="rate-career">%</span></div><span class="card-arrow">＞</span>
+        </a>
 
-        <div class="class-card">
-            <div class="class-info">
-                <div class="class-time">火4</div>
-                <div class="class-title">機械要素設計 (EF2022～)</div>
-                <div class="class-teacher">伊東_准教授</div>
-            </div>
-            <div class="right-block">
-                <div class="rate-area">
-                    <div class="rate-label">出席率</div>
-                    <div class="rate-num" id="rate-4">%</div>
-                </div>
-                <span class="arrow">＞</span>
-            </div>
-        </div>
+        <a href="#" class="class-card">
+            <div class="class-time">火4</div><div class="class-code">1111041301</div>
+            <div class="class-title">機械要素設計 (EF2022～)</div>
+            <div class="class-detail"><span class="class-detail-icon">👤</span> 高畑 智之</div>
+            <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率<span id="rate-yoso">%</span></div><span class="card-arrow">＞</span>
+        </a>
 
-        <div class="class-card">
-            <div class="class-info">
-                <div class="class-time">火5</div>
-                <div class="class-title">微分方程式I (再履修クラス)</div>
-                <div class="class-teacher">未定</div>
-            </div>
-            <div class="right-block">
-                <div class="rate-area">
-                    <div class="rate-label">出席率</div>
-                    <div class="rate-num" id="rate-5">%</div>
-                </div>
-                <span class="arrow">＞</span>
-            </div>
-        </div>
+        <a href="#" class="class-card">
+            <div class="class-time">火5</div><div class="class-code">1105981504</div>
+            <div class="class-title">微分方程式I (再履修クラス／EK・EF)</div>
+            <div class="class-detail"><span class="class-detail-icon">👤</span> 中島 幸喜</div>
+            <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率<span id="rate-bifun">%</span></div><span class="card-arrow">＞</span>
+        </a>
 
-        <div class="class-card">
-            <div class="class-info">
-                <div class="class-time">水1</div>
-                <div class="class-title">確率・統計II (EK・EF)</div>
-                <div class="class-teacher">宇田川_准教授</div>
-            </div>
-            <div class="right-block">
-                <div class="rate-area">
-                    <div class="rate-label">出席率</div>
-                    <div class="rate-num" id="rate-6">%</div>
-                </div>
-                <span class="arrow">＞</span>
-            </div>
-        </div>
+        <a href="#" class="class-card">
+            <div class="class-time">水1</div><div class="class-code">1102551501</div>
+            <div class="class-title">確率・統計II (EK・EF)</div>
+            <div class="class-detail"><span class="class-detail-icon">👤</span> 山本 現</div>
+            <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率<span id="rate-kakuritsu">%</span></div><span class="card-arrow">＞</span>
+        </a>
 
-        <div class="class-card">
-            <div class="class-info">
-                <div class="class-time">水3</div>
-                <div class="class-title">技術者倫理（水３：西條クラス）</div>
-                <div class="class-teacher">西條 美紀</div>
-            </div>
-            <div class="right-block">
-                <div class="rate-area">
-                    <div class="rate-label">出席率</div>
-                    <div class="rate-num" id="rate-7">%</div>
-                </div>
-                <span class="arrow">＞</span>
-            </div>
-        </div>
+        <a href="#" class="class-card">
+            <div class="class-time">水3</div><div class="class-code">11G0401501</div>
+            <div class="class-title">技術者倫理 (水3：西條クラス)</div>
+            <div class="class-detail"><span class="class-detail-icon">👤</span> 西條 玲奈</div>
+            <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率<span id="rate-rinri">%</span></div><span class="card-arrow">＞</span>
+        </a>
 
-        <div class="class-card">
-            <div class="class-info">
-                <div class="class-time">木1 木2</div>
-                <div class="class-title">先端機械設計製図I</div>
-                <div class="class-teacher">大中、正木、大條、高橋、高丸</div>
-            </div>
-            <div class="right-block">
-                <div class="rate-area">
-                    <div class="rate-label">出席率</div>
-                    <div class="rate-num" id="rate-8">%</div>
-                </div>
-                <span class="arrow">＞</span>
-            </div>
-        </div>
+        <a href="#" class="class-card">
+            <div class="class-time">木1 木2</div><div class="class-code">1106511301</div>
+            <div class="class-title">先端機械設計製図I</div>
+            <div class="class-detail"><span class="class-detail-icon">👤</span> 小林 宏史</div>
+            <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率<span id="rate-seizu">%</span></div><span class="card-arrow">＞</span>
+        </a>
 
         <a href="sentan-jissen.html" class="class-card">
-            <div class="class-info">
-                <div class="class-time">木3 木4</div>
-                <div class="class-title">先端機械実験実習I</div>
-                <div class="class-teacher">森田 晋也</div>
-            </div>
-            <div class="right-block">
-                <div class="rate-area">
-                    <div class="rate-label">出席率</div>
-                    <div class="rate-num" id="rate-9">%</div>
-                </div>
-                <span class="arrow">＞</span>
-            </div>
+            <div class="class-time">木3 木4</div><div class="class-code">1106491302</div>
+            <div class="class-title">先端機械実験実習I</div>
+            <div class="class-detail"><span class="class-detail-icon">👤</span> 森田 晋也</div>
+            <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率<span id="rate-sentan">0%</span></div><span class="card-arrow">＞</span>
         </a>
 
-        <div class="class-card">
-            <div class="class-info">
-                <div class="class-time">金1</div>
-                <div class="class-title">制御工学I (EF)</div>
-                <div class="class-teacher">美多 勉</div>
-            </div>
-            <div class="right-block">
-                <div class="rate-area">
-                    <div class="rate-label">出席率</div>
-                    <div class="rate-num" id="rate-10">%</div>
-                </div>
-                <span class="arrow">＞</span>
-            </div>
-        </div>
+        <a href="#" class="class-card">
+            <div class="class-time">金1</div><div class="class-code">1104591301</div>
+            <div class="class-title">制御工学I (EF)</div>
+            <div class="class-detail"><span class="class-detail-icon">👤</span> 藤田 壽憲</div>
+            <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率<span id="rate-seigyo">%</span></div><span class="card-arrow">＞</span>
+        </a>
 
-        <div class="class-card">
-            <div class="class-info">
-                <div class="class-time">金3 金4</div>
-                <div class="class-title">材料力学Iおよび演習 (EF)</div>
-                <div class="class-teacher">三好、立野、松田</div>
-            </div>
-            <div class="right-block">
-                <div class="rate-area">
-                    <div class="rate-label">出席率</div>
-                    <div class="rate-num" id="rate-11">%</div>
-                </div>
-                <span class="arrow">＞</span>
-            </div>
-        </div>
+        <a href="#" class="class-card">
+            <div class="class-time">金3 金4</div><div class="class-code">1103981302</div>
+            <div class="class-title">材料力学Iおよび演習 (EF)</div>
+            <div class="class-detail"><span class="class-detail-icon">👤</span> 柳田 明</div>
+            <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率<span id="rate-zairyo">%</span></div><span class="card-arrow">＞</span>
+        </a>
 
     </div>
 
@@ -219,97 +139,69 @@
 <script>
     const today = new Date();
 
-    // 基準日表示を今日の日付に自動で書き換えるよ！
+    // 基準日表示を今日の日付に自動更新！
     const yyyy = today.getFullYear();
     const mm = String(today.getMonth() + 1).padStart(2, '0');
     const dd = String(today.getDate()).padStart(2, '0');
-    
-    const standardDateElem = document.getElementById('today-standard-date');
-    if (standardDateElem) {
-        standardDateElem.textContent = `${yyyy}/${mm}/${dd}`;
-    }
+    document.getElementById('dynamic-base-date').textContent = `${yyyy}/${mm}/${dd}`;
 
-    // 出席率をリアルタイム＆分母可変で計算する共通魔法関数！
-    function calculateLiveRate(dateArray) {
+    // 出席率をリアルタイム計算する共通関数
+    function calculateRate(dates) {
         let attend = 0;
         let past = 0;
-
-        dateArray.forEach(dStr => {
+        dates.forEach(dStr => {
             const classDate = new Date(dStr);
-            
-            // 判定1：授業の「翌日」を迎えているなら出席（〇）カウント
             const nextDay = new Date(classDate);
             nextDay.setDate(nextDay.getDate() + 1);
-            if (today >= nextDay) {
-                attend++;
-            }
 
-            // 判定2：授業当日の「23:59:59」を過ぎていたら実施済み（分母）カウント
+            if (today >= nextDay) { attend++; }
+
             const classEnd = new Date(classDate);
             classEnd.setHours(23, 59, 59, 999);
-            if (today > classEnd) {
-                past++;
-            }
+            if (today > classEnd) { past++; }
         });
-
         return past > 0 ? Math.round((attend / past) * 100) + '%' : '%';
     }
 
-    // 🗓 各科目の日付データ配列
-    const dates2 = [
+    // 各科目のリアルな日付データ配列
+    const kikouDates = [
         "2026-04-14", "2026-04-21", "2026-04-28", "2026-05-12", "2026-05-19", "2026-05-26",
         "2026-06-02", "2026-06-09", "2026-06-16", "2026-06-23", "2026-06-30", "2026-07-07",
         "2026-07-14", "2026-07-21"
     ];
-
-    const dates3 = [
+    const careerDates = [
         "2026-06-09", "2026-06-16", "2026-06-23", "2026-06-30", "2026-07-07", "2026-07-14", "2026-07-21"
     ];
-
-    const dates4 = [...dates2];
-    const dates5 = [...dates2];
-
-    const dates6 = [
+    const kakuritsuDates = [
         "2026-04-15", "2026-04-22", "2026-04-29", "2026-05-13", "2026-05-20", "2026-05-27",
         "2026-06-03", "2026-06-10", "2026-06-17", "2026-06-24", "2026-07-01", "2026-07-08",
         "2026-07-15", "2026-07-22"
     ];
-
-    const dates7 = [...dates6];
-
-    const dates8 = [
+    const seizuDates = [
         "2026-04-16", "2026-04-23", "2026-04-30", "2026-05-14", "2026-05-21", "2026-05-28",
         "2026-06-04", "2026-06-11", "2026-06-18", "2026-06-25", "2026-07-02", "2026-07-09",
         "2026-07-16", "2026-07-23"
     ];
-
-    const dates10 = [
+    const seigyoDates = [
         "2026-04-10", "2026-04-17", "2026-04-24", "2026-05-08", "2026-05-15", "2026-05-22",
         "2026-05-29", "2026-06-05", "2026-06-12", "2026-06-19", "2026-06-26", "2026-07-03",
         "2026-07-10", "2026-07-17"
     ];
 
-    const dates11 = [...dates10];
+    // 💥 計算結果の流し込み（1番目と9番目の実習は一律で「0%」固定！）
+    document.getElementById('rate-jisshu').textContent = '0%';
+    document.getElementById('rate-kikou').textContent = calculateRate(kikouDates);
+    document.getElementById('rate-career').textContent = calculateRate(careerDates);
+    document.getElementById('rate-yoso').textContent = calculateRate(kikouDates);
+    document.getElementById('rate-bifun').textContent = calculateRate(kikouDates);
+    document.getElementById('rate-kakuritsu').textContent = calculateRate(kakuritsuDates);
+    document.getElementById('rate-rinri').textContent = calculateRate(kakuritsuDates);
+    document.getElementById('rate-seizu').textContent = calculateRate(seizuDates);
+    document.getElementById('rate-sentan').textContent = '0%';
+    document.getElementById('rate-seigyo').textContent = calculateRate(seigyoDates);
+    document.getElementById('rate-zairyo').textContent = calculateRate(seigyoDates);
 
-    // 💥 画面に結果を安全に反映する関数
-    const setRate = (id, val) => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = val;
-    };
-
-    setRate('rate-1', '0%');
-    setRate('rate-2', calculateLiveRate(dates2));
-    setRate('rate-3', calculateLiveRate(dates3));
-    setRate('rate-4', calculateLiveRate(dates4));
-    setRate('rate-5', calculateLiveRate(dates5));
-    setRate('rate-6', calculateLiveRate(dates6));
-    setRate('rate-7', calculateLiveRate(dates7));
-    setRate('rate-8', calculateLiveRate(dates8));
-    setRate('rate-9', '0%');
-    setRate('rate-10', calculateLiveRate(dates10));
-    setRate('rate-11', calculateLiveRate(dates11));
-
-    // ⏰ 5分放置で警告画面（timeout.html）に飛ばす機能
+    // ⏰ 5分放置で自動ログアウト（timeout.htmlへ移動）
     (function() {
         const TIMEOUT_DURATION = 300000; 
         let logoutTimer;
