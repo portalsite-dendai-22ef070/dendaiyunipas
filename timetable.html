@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学生時間割表</title>
+    <style>
+        /* 全体の基本スタイル */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            background-color: #f4f5f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* スマホサイズ固定コンテナ */
+        .container {
+            width: 100%;
+            max-width: 412px;
+            background-color: #f4f5f9;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding-bottom: 20px;
+        }
+
+        /* 青いヘッダー */
+        .header {
+            background-color: #1a65cc;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .header-title {
+            font-size: 18px;
+            font-weight: bold;
+            flex-grow: 1;
+            text-align: center;
+            margin-left: 20px;
+        }
+        .icon-btn {
+            font-size: 20px;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+        }
+
+        /* 上部ステータスエリア */
+        .status-area {
+            padding: 15px 15px 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f4f5f9;
+        }
+        .semester-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+        .error-check {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 14px;
+            color: #333;
+        }
+        .error-box {
+            width: 14px;
+            height: 14px;
+            border: 1px solid #cc4141;
+            background-color: #fcebeb;
+            display: inline-block;
+        }
+        .credits-display {
+            font-size: 14px;
+            color: #333;
+        }
+        .credits-num {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* 曜日ヘッダーエリア */
+        .days-header {
+            display: grid;
+            grid-template-columns: 25px repeat(6, 1fr);
+            padding: 0 10px;
+            text-align: center;
+            font-size: 14px;
+            color: #999;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .day-item.active {
+            color: #1a65cc;
+            border-bottom: 2px solid #1a65cc;
+            padding-bottom: 2px;
+        }
+
+        /* 時間割グリッドエリア */
+        .timetable-grid {
+            display: grid;
+            grid-template-columns: 25px repeat(6, 1fr);
+            grid-auto-rows: 72px;
+            gap: 4px;
+            padding: 0 10px;
+        }
+
+        /* 時限の数字のマス */
+        .period-number {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        /* 空白のコマのマス */
+        .empty-cell {
+            background-color: #edf0f5;
+            border-radius: 4px;
+            border: 1px solid #e2e6f0;
+        }
+
+        /* 授業が入っているマス（💥 divタグにしてリンク機能を除去！） */
+        .class-cell {
+            background-color: #fff;
+            border-radius: 4px;
+            border: 1px solid #d3dbe6;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            padding: 4px 2px;
+            box-sizing: border-box;
+            color: #333;
+            text-align: center;
+            justify-content: flex-start;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* マス上部のグレーのポッチ */
+        .class-cell::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 10%;
+            width: 80%;
+            height: 3px;
+            background-color: #a0a8b5;
+            border-bottom-left-radius: 2px;
+            border-bottom-right-radius: 2px;
+        }
+
+        /* 授業マスのテキスト */
+        .class-text {
+            font-size: 10px;
+            line-height: 1.2;
+            word-break: break-all;
+            margin-top: 4px;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 4;
+            overflow: hidden;
+        }
+
+        /* 右上の時計アイコンボタン */
+        .clock-icon-row {
+            display: flex;
+            justify-content: flex-end;
+            padding: 0 20px;
+            color: #1a65cc;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <a href="success.html" class="icon-btn">＜</a>
+        <div class="header-title">学生時間割表</div>
+        <span class="icon-btn">☰</span>
+    </div>
+
+    <div class="clock-icon-row">
+        <span>🕒</span>
+    </div>
+
+    <div class="status-area">
+        <div class="semester-title">2026年度 前期</div>
+        <div class="error-check">
+            <span class="error-box"></span>
+            <span>エラー</span>
+        </div>
+        <div class="credits-display">
+            <span class="credits-num">22.0</span> 単位
+        </div>
+    </div>
+
+    <div class="days-header">
+        <div></div>
+        <div class="day-item">月</div>
+        <div class="day-item">火</div>
+        <div class="day-item active">水</div>
+        <div class="day-item">木</div>
+        <div class="day-item">金</div>
+        <div class="day-item">土</div>
+    </div>
+
+    <div class="timetable-grid">
+
+        <div class="period-number">1</div>
+        <div class="class-cell"><div class="class-text">機械工学<br>実験実…<br>(EF)</div></div> <div class="empty-cell"></div> <div class="class-cell"><div class="class-text">確率・統<br>計II (E<br>K・EF)</div></div> <div class="class-cell"><div class="class-text">先端機械<br>設計製…</div></div> <div class="class-cell"><div class="class-text">制御工…<br>(EF)</div></div> <div class="empty-cell"></div> <div class="period-number">2</div>
+        <div class="class-cell"><div class="class-text">機械工学<br>実験実…<br>(EF)</div></div> <div class="class-cell"><div class="class-text">機構学 (E<br>F)</div></div> <div class="empty-cell"></div> <div class="class-cell"><div class="class-text">先端機械<br>設計製…</div></div> <div class="empty-cell"></div> <div class="empty-cell"></div> <div class="period-number">3</div>
+        <div class="empty-cell"></div> <div class="class-cell"><div class="class-text">キャリア<br>デザイン<br>(EF2022<br>～)(前後<br>期科目)</div></div> <div class="class-cell"><div class="class-text">技術者倫<br>理（水<br>３：西條<br>クラス）</div></div> <div class="class-cell"><div class="class-text">先端機械<br>実験実…</div></div> <div class="class-cell"><div class="class-text">材料力…<br>および演<br>習 (EF)</div></div> <div class="empty-cell"></div> <div class="period-number">4</div>
+        <div class="empty-cell"></div> <div class="class-cell"><div class="class-text">機械要素<br>設計 (EF2<br>022～)</div></div> <div class="empty-cell"></div> <div class="class-cell"><div class="class-text">先端機械<br>実験実…</div></div> <div class="class-cell"><div class="class-text">材料力…<br>および演<br>習 (EF)</div></div> <div class="empty-cell"></div> <div class="period-number">5</div>
+        <div class="empty-cell"></div> <div class="class-cell"><div class="class-text">微分方程<br>式I (再履<br>修クラス<br>／EK・E<br>F)</div></div> <div class="empty-cell"></div> <div class="empty-cell"></div> <div class="empty-cell"></div> <div class="empty-cell"></div> <div class="period-number">6</div>
+        <div class="empty-cell"></div><div class="empty-cell"></div><div class="empty-cell"></div>
+        <div class="empty-cell"></div><div class="empty-cell"></div><div class="empty-cell"></div>
+
+        <div class="period-number">7</div>
+        <div class="empty-cell"></div><div class="empty-cell"></div><div class="empty-cell"></div>
+        <div class="empty-cell"></div><div class="empty-cell"></div><div class="empty-cell"></div>
+
+        <div class="period-number">8</div>
+        <div class="empty-cell"></div><div class="empty-cell"></div><div class="empty-cell"></div>
+        <div class="empty-cell"></div><div class="empty-cell"></div><div class="empty-cell"></div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
