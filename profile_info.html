@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ポータルトップ</title>
+    <title>説明画面 - 学籍情報照会</title>
     <style>
         /* 全体のスタイル */
         body {
@@ -21,7 +21,7 @@
         .container {
             width: 100%;
             max-width: 412px;
-            background-color: #f4f5f9;
+            background-color: #ffffff; /* 説明画面の背景は白ベース */
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
@@ -29,24 +29,21 @@
             position: relative;
         }
 
-        /* ヘッダー */
+        /* ヘッダー（UNIPA特有の濃いブルー） */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 15px 20px;
-            background-color: #f4f5f9;
+            background-color: #1a65cc; /* 本物の画面に合わせたブルー */
+            color: white;
         }
         .header-title {
             font-size: 18px;
             font-weight: bold;
             flex-grow: 1;
             text-align: center;
-            margin-left: 40px;
-        }
-        .header-icons {
-            display: flex;
-            gap: 15px;
+            margin-left: 40px; /* 右の三本線ボタンとのバランス用 */
         }
         .icon-btn {
             font-size: 20px;
@@ -54,83 +51,17 @@
             user-select: none;
         }
 
-        /* メインコンテンツ（上部） */
-        .top-content {
-            padding: 10px 20px 20px 20px;
-            position: relative;
-        }
-        .today-title {
-            font-size: 32px;
-            font-weight: 900;
-            margin: 0 0 15px 0;
-        }
-        .illustration {
-            position: absolute;
-            right: 20px;
-            top: -10px;
-            width: 110px;
-            font-size: 35px;
-            text-align: right;
-        }
-
-        /* グリッド配置 */
-        .dashboard-grid {
-            display: flex;
-            gap: 15px;
-        }
-        .date-card {
-            background-color: #fff;
-            border-radius: 16px;
-            width: 100px;
-            padding: 15px 10px;
-            text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        }
-        .date-year { font-size: 14px; color: #888; }
-        .date-day { font-size: 20px; font-weight: bold; margin: 2px 0; }
-        .date-week { font-size: 28px; font-weight: bold; color: #333; }
-
-        .menu-card {
-            background-color: #fff;
-            border-radius: 16px;
-            flex-grow: 1;
-            padding: 15px 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        }
-        .menu-item {
-            display: flex;
-            align-items: center;
+        /* メインコンテンツ（説明文エリア） */
+        .content-area {
+            padding: 25px 20px;
+            line-height: 1.6;
             font-size: 15px;
-            font-weight: bold;
-            text-decoration: none;
-            color: #333;
-            position: relative;
+            color: #444444;
         }
-        .menu-icon { margin-right: 8px; }
-        .badge::after {
-            content: ""; position: absolute; left: 12px; top: -2px;
-            width: 6px; height: 6px; background-color: #ff4d4d; border-radius: 50%;
+        
+        .content-paragraph {
+            margin-bottom: 20px;
         }
-
-        /* 下部スケジュールエリア */
-        .schedule-area {
-            background-color: #0066cc;
-            border-top-left-radius: 24px;
-            border-top-right-radius: 24px;
-            padding: 20px;
-            flex-grow: 1;
-            color: white;
-        }
-        .schedule-header { display: flex; justify-content: flex-end; align-items: center; margin-bottom: 20px; }
-        .toggle-switch { background-color: rgba(255, 255, 255, 0.2); border-radius: 20px; padding: 2px; display: flex; }
-        .toggle-btn { padding: 4px 14px; font-size: 13px; font-weight: bold; border-radius: 18px; }
-        .toggle-btn.active { background-color: white; color: #0066cc; }
-        .date-nav { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 20px; }
-        .nav-today { background-color: white; color: #0066cc; padding: 5px 16px; border-radius: 20px; font-size: 14px; font-weight: bold; }
-        .empty-schedule-box { background-color: rgba(0, 0, 0, 0.15); border-radius: 12px; padding: 25px 20px; text-align: center; font-size: 15px; font-weight: bold; }
 
         /* 右側スライドメニュー（ドロワー）のCSS */
         .menu-overlay {
@@ -236,6 +167,24 @@
             text-decoration: none;
             box-sizing: border-box;
         }
+
+        /* フッター（ブラウザ風ナビゲーションバー） */
+        .footer-nav {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 12px 10px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+        }
+        .nav-btn {
+            font-size: 22px;
+            color: #555;
+            cursor: pointer;
+            text-decoration: none;
+            user-select: none;
+        }
     </style>
 </head>
 <body>
@@ -243,48 +192,23 @@
 <div class="container">
 
     <div class="header">
-        <div class="header-title">ポータルトップ32
-        </div>
-        <div class="header-icons">
-            <span class="icon-btn">📅</span>
-            <span class="icon-btn" id="menuOpenBtn">☰</span>
-        </div>
+        <div class="header-title">説明画面</div>
+        <span class="icon-btn" id="menuOpenBtn">☰</span>
     </div>
 
-    <div class="top-content">
-        <h2 class="today-title">TODAY</h2>
-        <div class="dashboard-grid">
-            <div class="date-card">
-                <div class="date-year" id="live-card-year">2026</div>
-                <div class="date-day" id="live-card-day">6/7</div>
-                <div class="date-week" id="live-card-week">日</div>
-            </div>
-            <div class="menu-card">
-                <a href="#" class="menu-item badge"><span class="menu-icon">📨</span> お知らせ</a>
-                <a href="#" class="menu-item"><span class="menu-icon">📖</span> シラバス照会</a>
-                <a href="#" class="menu-item"><span class="menu-icon">📊</span> 成績照会</a>
-            </div>
+    <div class="content-area">
+        <div class="content-paragraph">
+            大学に登録されている自身の情報を参照することができます。
         </div>
-    </div>
-
-    <div class="schedule-area">
-        <div class="schedule-header">
-            <div class="toggle-switch"><div class="toggle-btn active">日</div></div>
+        <div class="content-paragraph">
+            住所や電話番号、メールアドレスなどの連絡先を確認し、変更がある場合は学生支援センター（学生厚生担当）窓口まで変更の申請をお願いします。
         </div>
-        <div class="date-nav">
-            <div class="nav-today">今日</div>
-            <span class="nav-arrow">＜</span>
-            <div class="nav-current-date" id="live-nav-date">2026/06/07 日</div>
-            <span class="nav-arrow">＞</span>
-        </div>
-        <div class="empty-schedule-box">本日の予定はありません</div>
     </div>
 
     <div class="menu-overlay" id="menuOverlay"></div>
 
     <div class="side-menu" id="sideMenu">
-        
-        <a href="#" class="nav-blue-item">
+        <a href="success.html" class="nav-blue-item">
             <div><span>🏠</span>ポータルトップ(スマートフォン)</div>
             <span style="color:white;">＞</span>
         </a>
@@ -294,8 +218,8 @@
         </a>
 
         <div class="menu-category-title">個人別情報</div>
-        <a href="profile_info.html" class="menu-link-item"><span>学籍情報照会について</span><span class="menu-arrow">＞</span></a>
-        <a href="#" class="menu-link-item"><span>学籍情報照会</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>学籍情報照会について</span><span class="menu-arrow">＞</span></a>
+        <a href="profile_info.html" class="menu-link-item"><span>学籍情報照会</span><span class="menu-arrow">＞</span></a>
         <a href="#" class="menu-link-item"><span>健康診断情報照会</span><span class="menu-arrow">＞</span></a>
         <a href="#" class="menu-link-item"><span>安否確認回答</span><span class="menu-arrow">＞</span></a>
 
@@ -346,7 +270,14 @@
         <div class="logout-area">
             <a href="index.html" class="btn-logout">↪ ログアウト</a>
         </div>
+    </div>
 
+    <div class="footer-nav">
+        <a href="javascript:history.back()" class="nav-btn">←</a>
+        <a href="javascript:history.forward()" class="nav-btn" style="color: #ccc;">→</a>
+        <a href="success.html" class="nav-btn">＋</a>
+        <span class="nav-btn">☺</span>
+        <span class="nav-btn">•••</span>
     </div>
 
 </div>
@@ -369,33 +300,10 @@
     });
 
     // ===================================================
-    // 📅 ポータルトップの日付を今日と完全同期させるロジック！
+    // ⏰ 5分放置で警告画面（timeout.html）に飛ばす機能！
     // ===================================================
     (function() {
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = now.getMonth() + 1;
-        const date = now.getDate();
-        const dayIndex = now.getDay();
-        const weekDays = ['日', '月', '火', '水', '木', '金', '土'];
-        const weekStr = weekDays[dayIndex];
-
-        // 1. 左上の日付カードの書き換え
-        document.getElementById('live-card-year').textContent = year;
-        document.getElementById('live-card-day').textContent = `${month}/${date}`;
-        document.getElementById('live-card-week').textContent = weekStr;
-
-        // 2. 下部スケジュールナビの日付の書き換え（2桁ゼロ埋めフォーマットに合わせるよ！）
-        const paddedMonth = String(month).padStart(2, '0');
-        const paddedDate = String(date).padStart(2, '0');
-        document.getElementById('live-nav-date').textContent = `${year}/${paddedMonth}/${paddedDate} ${weekStr}`;
-    })();
-
-    // ===================================================
-    // ⏰ ここから：5分放置で警告画面（timeout.html）に飛ばす機能！
-    // ===================================================
-    (function() {
-        // 🚨 5分間 ＝ 300000 ミリ秒。テスト時はここを10000（10秒）にしてね！
+        // 🚨 5分間 ＝ 300000 ミリ秒。
         const TIMEOUT_DURATION = 300000; 
         
         let logoutTimer;
@@ -403,7 +311,6 @@
         function resetLogoutTimer() {
             clearTimeout(logoutTimer);
             logoutTimer = setTimeout(function() {
-                // 💥 5分経ったら自動でエラー画面にジャンプ！
                 window.location.href = 'timeout.html';
             }, TIMEOUT_DURATION);
         }
