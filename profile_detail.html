@@ -2,14 +2,15 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>学籍情報照会 - 詳細</title>
+    <title>学籍情報照会</title>
     <style>
-        /* 全体のスタイル */
+        /* 全体の基本スタイル */
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background-color: #f4f5f9;
             color: #333;
             display: flex;
@@ -27,109 +28,131 @@
             flex-direction: column;
             min-height: 100vh;
             position: relative;
+            padding-bottom: 60px; /* フッターバーの余白 */
         }
 
-        /* ヘッダー */
+        /* 🟦 本物のUNIPAカラーヘッダー */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 20px;
+            padding: 12px 15px;
             background-color: #1a65cc;
             color: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
         .header-title {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             flex-grow: 1;
             text-align: center;
-            margin-left: 40px;
+            margin-left: 50px;
         }
-        .icon-btn {
-            font-size: 20px;
+        .menu-btn-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
             user-select: none;
         }
-
-        /* メインコンテンツエリア */
-        .content-area {
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+        .menu-icon {
+            font-size: 18px;
+            line-height: 1;
         }
-
-        /* セクション（青見出しのブロック） */
-        .info-section {
-            background-color: #ffffff;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-        }
-
-        /* セクションのタイトルバー */
-        .section-title {
-            background-color: #1a65cc;
-            color: white;
-            padding: 10px 15px;
-            font-size: 14px;
+        .menu-text {
+            font-size: 9px;
+            margin-top: 1px;
             font-weight: bold;
+        }
+
+        /* 📂 UNIPA特有のアコーディオン風開閉バー */
+        .accordion-bar {
+            background-color: #fcfcfc;
+            border-top: 1px solid #dcdcdc;
+            border-bottom: 1px solid #dcdcdc;
+            border-left: 4px solid #1a65cc; /* 👈 左端の青いアクセント線 */
+            padding: 10px 15px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #333;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-top: 10px;
+        }
+        .accordion-arrow {
+            font-size: 10px;
+            color: #666;
         }
 
-        /* テーブルスタイル（UNIPA再現） */
-        .info-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
+        /* 📊 ギュッと詰まった2列点線グリッド構造（本物の再現） */
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* 👈 綺麗に2分割 */
+            background-color: #ffffff;
+            border-bottom: 1px solid #dcdcdc;
         }
-        .info-table th {
-            background-color: #eef4fc;
-            color: #1a65cc;
-            text-align: left;
-            padding: 8px 12px;
+        .grid-item {
+            display: flex;
+            flex-direction: column;
+            border-bottom: 1px dotted #ccc; /* 👈 UNIPAおなじみの境界点線 */
+            font-size: 12px;
+            min-height: 48px;
+            box-sizing: border-box;
+        }
+        /* 奇数番目のマスの右側に細い区切り線を入れる */
+        .grid-item:nth-child(odd) {
+            border-right: 1px solid #e8e8e8;
+        }
+        .item-label {
+            background-color: #f2f5f8; /* 👈 項目名の薄グレー背景 */
+            color: #1a65cc; /* 👈 項目名は青文字 */
+            padding: 4px 8px;
             font-weight: bold;
-            border-bottom: 1px solid #d0e0f5;
-            width: 35%;
+            font-size: 11px;
         }
-        .info-table td {
-            padding: 8px 12px;
-            border-bottom: 1px solid #eeeeee;
+        .item-value {
+            padding: 4px 8px;
             color: #333;
             background-color: #ffffff;
-        }
-        .info-table tr:last-child th,
-        .info-table tr:last-child td {
-            border-bottom: none;
+            flex-grow: 1;
+            word-break: break-all;
         }
 
-        /* サブ見出し（住所などの区切り） */
-        .sub-header {
-            background-color: #f0f4f8;
-            padding: 6px 12px;
+        /* 住所ブロックなどの大きな横幅用の一列表示 */
+        .grid-full-row {
+            grid-column: 1 / span 2; /* 👈 2マス分をぶち抜く */
+            display: flex;
+            flex-direction: column;
+            border-bottom: 1px dotted #ccc;
             font-size: 12px;
-            font-weight: bold;
-            color: #555;
-            border-bottom: 1px solid #e0e6ed;
         }
 
-        /* 右側スライドメニュー（ドロワー）のCSS */
+        /* 小見出し（現住所・帰省先住所などの仕切り） */
+        .section-sub-title {
+            grid-column: 1 / span 2;
+            background-color: #e6eef7;
+            color: #333;
+            padding: 6px 12px;
+            font-size: 11px;
+            font-weight: bold;
+            border-bottom: 1px solid #dcdcdc;
+        }
+
+        /* 右側スライドメニュー（ドロワー） */
         .menu-overlay {
-            position: absolute;
+            position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0,0,0,0.4);
             z-index: 100;
             display: none;
         }
-
         .side-menu {
             position: fixed;
-            top: 0; 
-            right: -100%;
-            width: 85%; 
-            height: 100%;
+            top: 0; right: -100%; width: 85%; height: 100%;
             background-color: #ffffff;
             z-index: 101;
             box-sizing: border-box;
@@ -138,101 +161,42 @@
             display: flex;
             flex-direction: column;
         }
-
-        .side-menu.open {
-            right: 0;
-        }
-
+        .side-menu.open { right: 0; }
         .nav-blue-item {
-            background-color: #1a65cc;
-            color: white;
-            padding: 16px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: bold;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
+            background-color: #1a65cc; color: white; padding: 16px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            text-decoration: none; font-size: 15px; font-weight: bold;
         }
-        .nav-blue-item div { display: flex; align-items: center; gap: 10px; }
-
-        .menu-category-title {
-            color: #1a65cc;
-            font-size: 14px;
-            font-weight: bold;
-            padding: 15px 20px 5px 20px;
-            background-color: #fff;
-        }
-
+        .menu-category-title { color: #1a65cc; font-size: 14px; font-weight: bold; padding: 15px 20px 5px 20px; }
         .menu-link-item {
-            padding: 14px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            text-decoration: none;
-            color: #333333;
-            font-size: 14px;
-            background-color: #fff;
-            border-bottom: 1px solid #f0f0f0;
-            padding-left: 35px;
+            padding: 14px 20px; display: flex; justify-content: space-between; align-items: center;
+            text-decoration: none; color: #333; font-size: 14px; border-bottom: 1px solid #f0f0f0; padding-left: 35px;
         }
-        .menu-arrow {
-            color: #1a65cc;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        .menu-blue-bar {
-            background-color: #1a65cc;
-            color: white;
-            padding: 14px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-
-        .logout-area {
-            padding: 20px;
-            padding-bottom: 80px;
-            background-color: #fff;
-            text-align: center;
-            margin-bottom: 20px;
-        }
+        .logout-area { padding: 20px; padding-bottom: 80px; text-align: center; }
         .btn-logout {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #1a65cc;
-            border-radius: 25px;
-            background-color: white;
-            color: #1a65cc;
-            font-size: 15px;
-            font-weight: bold;
-            text-decoration: none;
-            box-sizing: border-box;
+            display: flex; justify-content: center; align-items: center; gap: 8px; width: 100%;
+            padding: 12px; border: 2px solid #1a65cc; border-radius: 25px; color: #1a65cc; font-size: 15px; font-weight: bold; text-decoration: none;
         }
 
-        /* フッターナビゲーションバー */
+        /* 📱 画面最下部のsafari/chrome風ブラウザナビゲーションバー */
         .footer-nav {
-            margin-top: auto;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 12px 10px;
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 412px;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            text-align: center;
+            padding: 10px 0;
             background-color: #f8f9fa;
             border-top: 1px solid #e0e0e0;
+            z-index: 5;
         }
         .nav-btn {
-            font-size: 22px;
-            color: #555;
+            font-size: 20px;
+            color: #1a65cc;
             cursor: pointer;
             text-decoration: none;
             user-select: none;
@@ -245,140 +209,83 @@
 
     <div class="header">
         <div class="header-title">学籍情報照会</div>
-        <span class="icon-btn" id="menuOpenBtn">☰</span>
+        <div class="menu-btn-area" id="menuOpenBtn">
+            <span class="menu-icon">☰</span>
+            <span class="menu-text">メニュー</span>
+        </div>
     </div>
 
-    <div class="content-area">
+    <div class="accordion-bar">
+        <span>基本情報</span>
+        <span class="accordion-arrow">▼</span>
+    </div>
+    <div class="grid-container">
+        <div class="grid-item"><div class="item-label">学籍番号</div><div class="item-value">26FI000</div></div>
+        <div class="grid-item"><div class="item-label">学年</div><div class="item-value">1年</div></div>
+        
+        <div class="grid-full-row"><div class="item-label">氏名（漢字）</div><div class="item-value">電大 太郎</div></div>
+        <div class="grid-full-row"><div class="item-label">氏名（カナ）</div><div class="item-value">デンダイ タロウ</div></div>
+        <div class="grid-full-row"><div class="item-label">英字氏名</div><div class="item-value">DENDAI TARO</div></div>
+        
+        <div class="grid-item"><div class="item-label">生年月日</div><div class="item-value">2006/04/01</div></div>
+        <div class="grid-item"><div class="item-label">性別</div><div class="item-value">男</div></div>
+        
+        <div class="grid-item"><div class="item-label">国籍</div><div class="item-value">日本</div></div>
+        <div class="grid-item"><div class="item-label">宗教</div><div class="item-value"></div></div>
+    </div>
 
-        <div class="info-section">
-            <div class="section-title">
-                <span>基本情報</span>
-                <span>▼</span>
-            </div>
-            <table class="info-table">
-                <tr>
-                    <th>学籍番号</th>
-                    <td>26FI000</td>
-                </tr>
-                <tr>
-                    <th>氏名（漢字）</th>
-                    <td>電大 太郎</td>
-                </tr>
-                <tr>
-                    <th>氏名（カナ）</th>
-                    <td>デンダイ タロウ</td>
-                </tr>
-                <tr>
-                    <th>英字氏名</th>
-                    <td>Dendai Taro</td>
-                </tr>
-                <tr>
-                    <th>生年月日</th>
-                    <td>2006/04/01</td>
-                </tr>
-                <tr>
-                    <th>性別</th>
-                    <td>男性</td>
-                </tr>
-                <tr>
-                    <th>国籍</th>
-                    <td>日本</td>
-                </tr>
-            </table>
-        </div>
+    <div class="accordion-bar">
+        <span>所属・学籍状態</span>
+        <span class="accordion-arrow">▼</span>
+    </div>
+    <div class="grid-container">
+        <div class="grid-full-row"><div class="item-label">学部</div><div class="item-value">工学部</div></div>
+        <div class="grid-full-row"><div class="item-label">学科・課程・専攻</div><div class="item-value">情報通信工学科</div></div>
+        
+        <div class="grid-item"><div class="item-label">学籍状態</div><div class="item-value">在学</div></div>
+        <div class="grid-item"><div class="item-label">コース</div><div class="item-value"></div></div>
+        
+        <div class="grid-item"><div class="item-label">入学年度</div><div class="item-value">2026年度</div></div>
+        <div class="grid-item"><div class="item-label">編入区分</div><div class="item-value">一般入学</div></div>
+    </div>
 
-        <div class="info-section">
-            <div class="section-title">
-                <span>所属・学籍状態</span>
-                <span>▼</span>
-            </div>
-            <table class="info-table">
-                <tr>
-                    <th>学部</th>
-                    <td>工学部</td>
-                </tr>
-                <tr>
-                    <th>学科/過程</th>
-                    <td>情報通信工学科</td>
-                </tr>
-                <tr>
-                    <th>学年</th>
-                    <td>1年</td>
-                </tr>
-                <tr>
-                    <th>学籍状態</th>
-                    <td>在学</td>
-                </tr>
-                <tr>
-                    <th>入学年度</th>
-                    <td>2026年度</td>
-                </tr>
-            </table>
-        </div>
+    <div class="accordion-bar">
+        <span>... 学生本人住所</span>
+        <span class="accordion-arrow">▼</span>
+    </div>
+    <div class="grid-container">
+        <div class="section-sub-title">現住所</div>
+        <div class="grid-item"><div class="item-label">郵便番号</div><div class="item-value">120-8551</div></div>
+        <div class="grid-item"><div class="item-label">電話番号</div><div class="item-value">03-5280-XXXX</div></div>
+        
+        <div class="grid-full-row"><div class="item-label">住所１（都道府県・市区町村・番地）</div><div class="item-value">東京都足立区千住旭町５</div></div>
+        <div class="grid-full-row"><div class="item-label">住所２（アパート・マンション・部屋番号）</div><div class="item-value">〇〇マンション 101号室</div></div>
+        
+        <div class="grid-full-row"><div class="item-label">携帯電話番号</div><div class="item-value">090-XXXX-XXXX</div></div>
+        <div class="grid-full-row"><div class="item-label">大学メールアドレス</div><div class="item-value">26fi000@cck.dendai.ac.jp</div></div>
+        <div class="grid-full-row"><div class="item-label">携帯メールアドレス</div><div class="item-value"></div></div>
 
-        <div class="info-section">
-            <div class="section-title">
-                <span>学生本人住所</span>
-                <span>▼</span>
-            </div>
-            <div class="sub-header">現住所（下宿先など）</div>
-            <table class="info-table">
-                <tr>
-                    <th>郵便番号</th>
-                    <td>120-8551</td>
-                </tr>
-                <tr>
-                    <th>住所１</th>
-                    <td>東京都足立区千住旭町５</td>
-                </tr>
-                <tr>
-                    <th>住所２</th>
-                    <td>〇〇マンション 101号室</td>
-                </tr>
-                <tr>
-                    <th>電話番号</th>
-                    <td>03-5280-XXXX</td>
-                </tr>
-                <tr>
-                    <th>携帯番号</th>
-                    <td>090-XXXX-XXXX</td>
-                </tr>
-                <tr>
-                    <th>大学メール</th>
-                    <td>26fi000@cck.dendai.ac.jp</td>
-                </tr>
-            </table>
-        </div>
+        <div class="section-sub-title">帰省先住所</div>
+        <div class="grid-full-row"><div class="item-label">現住所と同じ</div><div class="item-value">はい</div></div>
+    </div>
 
-        <div class="info-section">
-            <div class="section-title">
-                <span>保証人連絡先</span>
-                <span>▼</span>
-            </div>
-            <table class="info-table">
-                <tr>
-                    <th>保証人氏名</th>
-                    <td>電大 一郎</td>
-                </tr>
-                <tr>
-                    <th>続柄</th>
-                    <td>父</td>
-                </tr>
-                <tr>
-                    <th>郵便番号</th>
-                    <td>120-8551</td>
-                </tr>
-                <tr>
-                    <th>住所１</th>
-                    <td>東京都足立区千住旭町５</td>
-                </tr>
-                <tr>
-                    <th>電話番号</th>
-                    <td>03-5280-XXXX</td>
-                </tr>
-            </table>
-        </div>
+    <div class="accordion-bar">
+        <span>... 保証人連絡先</span>
+        <span class="accordion-arrow">▼</span>
+    </div>
+    <div class="grid-container">
+        <div class="section-sub-title">保証人</div>
+        <div class="grid-item"><div class="item-label">保証人氏名</div><div class="item-value">電大 一郎</div></div>
+        <div class="grid-item"><div class="item-label">続柄</div><div class="item-value">父</div></div>
+        
+        <div class="grid-item"><div class="item-label">郵便番号</div><div class="item-value">120-8551</div></div>
+        <div class="grid-item"><div class="item-label">電話番号</div><div class="item-value">03-5280-XXXX</div></div>
+        
+        <div class="grid-full-row"><div class="item-label">住所１</div><div class="item-value">東京都足立区千住旭町５</div></div>
+        <div class="grid-full-row"><div class="item-label">住所２</div><div class="item-value"></div></div>
 
+        <div class="section-sub-title">保証人（緊急連絡先）</div>
+        <div class="grid-full-row"><div class="item-label">上記と同じ</div><div class="item-value">はい</div></div>
     </div>
 
     <div class="menu-overlay" id="menuOverlay"></div>
@@ -386,72 +293,24 @@
     <div class="side-menu" id="sideMenu">
         <a href="success.html" class="nav-blue-item">
             <div><span>🏠</span>ポータルトップ(スマートフォン)</div>
-            <span style="color:white;">＞</span>
-        </a>
-        <a href="#" class="nav-blue-item">
-            <div><span> can-icon </span>お気に入りタイトル</div>
-            <span style="color:white;">＞</span>
-        </a>
-
-        <div class="menu-category-title">個人別情報</div>
-        <a href="#" class="menu-link-item"><span>学籍情報照会について</span><span class="menu-arrow">＞</span></a>
-        <a href="profile_detail.html" class="menu-link-item"><span>学籍情報照会</span><span class="menu-arrow">＞</span></a>
-        <a href="#" class="menu-link-item"><span>健康診断情報照会</span><span class="menu-arrow">＞</span></a>
-        <a href="#" class="menu-link-item"><span>安否確認回答</span><span class="menu-arrow">＞</span></a>
-
-        <div class="menu-category-title">履修登録</div>
-        <a href="#" class="menu-link-item"><span>履修の手引き</span><span class="menu-arrow">＞</span></a>
-
-        <div class="menu-category-title">時間割</div>
-        <a href="#" class="menu-link-item"><span>時間割について</span><span class="menu-arrow">＞</span></a>
-        <a href="timetable.html" class="menu-link-item"><span>学生時間割表</span><span class="menu-arrow">＞</span></a>
-
-        <div class="menu-category-title">授業</div>
-        <a href="#" class="menu-link-item"><span>シラバス照会</span><span class="menu-arrow">＞</span></a>
-        <a href="#" class="menu-link-item"><span>2020～2022シラバス照会</span><span class="menu-arrow">＞</span></a>
-        <a href="#" class="menu-link-item"><span>出席管理について</span><span class="menu-arrow">＞</span></a>
-        <a href="#" class="menu-link-item"><span>出席登録</span><span class="menu-arrow">＞</span></a>
-        <a href="attendance.html" class="menu-link-item"><span>出席確認</span><span class="menu-arrow">＞</span></a>
-        <a href="#" class="menu-link-item"><span>授業評価閲覧</span><span class="menu-arrow">＞</span></a>
-
-        <div class="menu-category-title">成績関連</div>
-        <a href="#" class="menu-link-item"><span>成績照会について</span><span class="menu-arrow">＞</span></a>
-        <a href="#" class="menu-link-item"><span>成績照会</span><span class="menu-arrow">＞</span></a>
-        <a href="#" class="menu-link-item"><span>掲示板</span><span class="menu-arrow">＞</span></a>
-
-        <div class="menu-category-title">資料/サイトリンク</div>
-        <a href="#" class="menu-link-item"><span>学事日程</span><span class="menu-arrow">＞</span></a>
-        <a href="#" class="menu-link-item"><span>学生要覧</span><span class="menu-arrow">＞</span></a>
-        <a href="#" class="menu-link-item"><span>UNIPA使用法</span><span class="menu-arrow">＞</span></a>
-        <a href="#" class="menu-link-item"><span>MARCOシステム</span><span class="menu-arrow">＞</span></a>
-        <a href="#" class="menu-link-item"><span>東京電機大学生活協同組合HP</span><span class="menu-arrow">＞</span></a>
-
-        <div class="menu-category-title">授業アンケート</div>
-        <a href="#" class="menu-link-item"><span>授業アンケート回答</span><span class="menu-arrow">＞</span></a>
-        <a href="#" class="menu-link-item"><span>回答方法</span><span class="menu-arrow">＞</span></a>
-        <a href="#" class="menu-link-item"><span>結果照会（BOX）</span><span class="menu-arrow">＞</span></a>
-
-        <div class="menu-category-title">マイステップ</div>
-        <a href="#" class="menu-link-item"><span>マイステップ登録</span><span class="menu-arrow">＞</span></a>
-
-        <div class="menu-category-title">★WebClass★</div>
-        <a href="#" class="menu-link-item"><span>TDUポートフォリオへのリンク</span><span class="menu-arrow">＞</span></a>
-        <a href="#" class="menu-link-item"><span>★WebClass★</span><span class="menu-arrow">＞</span></a>
-
-        <a href="#" class="menu-blue-bar">
-            <span>👤 個人設定(スマートフォン)</span>
             <span>＞</span>
         </a>
-
+        <div class="menu-category-title">個人別情報</div>
+        <a href="profile_info.html" class="menu-link-item"><span>学籍情報照会について</span><span>＞</span></a>
+        <a href="profile_detail.html" class="menu-link-item"><span>学籍情報照会</span><span>＞</span></a>
+        <div class="menu-category-title">時間割</div>
+        <a href="timetable.html" class="menu-link-item"><span>学生時間割表</span><span>＞</span></a>
+        <div class="menu-category-title">授業</div>
+        <a href="attendance.html" class="menu-link-item"><span>出席確認</span><span>＞</span></a>
         <div class="logout-area">
             <a href="index.html" class="btn-logout">↪ ログアウト</a>
         </div>
     </div>
 
     <div class="footer-nav">
-        <a href="javascript:history.back()" class="nav-btn">←</a>
-        <a href="javascript:history.forward()" class="nav-btn" style="color: #ccc;">→</a>
-        <a href="success.html" class="nav-btn">＋</a>
+        <a href="javascript:history.back()" class="nav-btn" style="transform: scaleX(-1); display: inline-block;">➔</a>
+        <a href="javascript:history.forward()" class="nav-btn" style="color: #ccc;">➔</a>
+        <a href="success.html" class="nav-btn" style="font-size: 24px; font-weight: bold;">+</a>
         <span class="nav-btn">☺</span>
         <span class="nav-btn">•••</span>
     </div>
@@ -463,21 +322,17 @@
     const sideMenu = document.getElementById('sideMenu');
     const menuOverlay = document.getElementById('menuOverlay');
 
-    // 「☰」ボタンを押したらメニューを開く！
     menuOpenBtn.addEventListener('click', function() {
         sideMenu.classList.add('open');
         menuOverlay.style.display = 'block';
     });
 
-    // 黒い背景モヤモヤを押したらメニューを閉じる！
     menuOverlay.addEventListener('click', function() {
         sideMenu.classList.remove('open');
         menuOverlay.style.display = 'none';
     });
 
-    // ===================================================
-    // ⏰ 5分放置で警告画面（timeout.html）に飛ばす機能！
-    // ===================================================
+    // ⏰ 5分放置タイムアウト
     (function() {
         const TIMEOUT_DURATION = 300000; 
         let logoutTimer;
@@ -491,7 +346,6 @@
 
         window.addEventListener('touchstart', resetLogoutTimer);
         window.addEventListener('click', resetLogoutTimer);
-
         resetLogoutTimer();
     })();
 </script>
