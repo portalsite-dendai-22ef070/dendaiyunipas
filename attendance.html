@@ -7,10 +7,10 @@
     <title>出欠状況確認一覧</title>
     <style>
         body { margin: 0; padding: 0; font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #f4f5f9; color: #333; display: flex; justify-content: center; }
-        .container { width: 100%; max-width: 412px; background-color: #f4f5f9; box-sizing: border-box; display: flex; flex-direction: column; min-height: 100vh; padding-bottom: 40px; }
+        .container { width: 100%; max-width: 412px; background-color: #f4f5f9; box-sizing: border-box; display: flex; flex-direction: column; min-height: 100vh; padding-bottom: 40px; position: relative; }
         .header { background-color: #1a65cc; color: white; display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; position: sticky; top: 0; z-index: 10; }
         .header-title { font-size: 18px; font-weight: bold; flex-grow: 1; text-align: center; margin-left: 20px; }
-        .icon-btn { font-size: 20px; cursor: pointer; text-decoration: none; color: white; }
+        .icon-btn { font-size: 20px; cursor: pointer; text-decoration: none; color: white; user-select: none; }
         .filter-area { padding: 15px 20px; }
         .filter-label { font-size: 14px; font-weight: bold; margin-bottom: 8px; }
         .select-box { width: 100%; padding: 12px 15px; font-size: 15px; border: 1px solid #ccc; border-radius: 8px; background-color: #fff; color: #333; appearance: none; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path d='M0 3l5 5 5-5z' fill='%231a65cc'/></svg>"); background-repeat: no-repeat; background-position: right 15px center; background-size: 12px; box-sizing: border-box; margin-bottom: 15px; }
@@ -27,6 +27,58 @@
         .class-detail { font-size: 13px; color: #555; display: flex; align-items: center; gap: 6px; }
         .class-detail-icon { color: #1a65cc; font-size: 14px; }
         .card-arrow { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: #1a65cc; font-weight: bold; font-size: 16px; }
+
+        /* ⚙️ サイドメニュー（ドロワー）復活スタイル */
+        .menu-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.4);
+            z-index: 100;
+            display: none;
+        }
+        .side-menu {
+            position: fixed;
+            top: 0; right: -100%; width: 85%; height: 100%;
+            background-color: #ffffff;
+            z-index: 101;
+            box-sizing: border-box;
+            transition: right 0.3s ease;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        .side-menu.open { right: 0; }
+        
+        .nav-blue-item {
+            background-color: #1a65cc; color: white; padding: 16px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            text-decoration: none; font-size: 15px; font-weight: bold;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        .nav-blue-item div { display: flex; align-items: center; gap: 10px; }
+        
+        .menu-category-title {
+            color: #1a65cc; font-size: 14px; font-weight: bold;
+            padding: 15px 20px 5px 20px; background-color: #fff;
+        }
+        .menu-link-item {
+            padding: 14px 20px; display: flex; justify-content: space-between; align-items: center;
+            text-decoration: none; color: #333; font-size: 14px; border-bottom: 1px solid #f0f0f0; padding-left: 35px;
+            background-color: #fff;
+        }
+        .menu-arrow { color: #1a65cc; font-weight: bold; font-size: 14px; }
+        
+        .menu-blue-bar {
+            background-color: #1a65cc; color: white; padding: 14px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            text-decoration: none; font-size: 14px; font-weight: bold; margin-top: 10px;
+        }
+        .logout-area { padding: 20px; padding-bottom: 80px; text-align: center; background-color: #fff; }
+        .btn-logout {
+            display: flex; justify-content: center; align-items: center; gap: 8px; width: 100%;
+            padding: 12px; border: 2px solid #1a65cc; border-radius: 25px; background-color: white;
+            color: #1a65cc; font-size: 15px; font-weight: bold; text-decoration: none; box-sizing: border-box;
+        }
     </style>
 </head>
 <body>
@@ -36,7 +88,7 @@
     <div class="header">
         <a href="success.html" class="icon-btn">＜</a>
         <div class="header-title">出欠状況確認一覧</div>
-        <span class="icon-btn">☰</span>
+        <span class="icon-btn" id="menuOpenBtn">☰</span>
     </div>
 
     <div class="filter-area">
@@ -134,9 +186,91 @@
 
     </div>
 
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <div class="side-menu" id="sideMenu">
+        <a href="success.html" class="nav-blue-item">
+            <div><span>🏠</span>ポータルトップ(スマートフォン)</div>
+            <span style="color:white;">＞</span>
+        </a>
+        <a href="#" class="nav-blue-item">
+            <div><span>⭐</span>お気に入りタイトル</div>
+            <span style="color:white;">＞</span>
+        </a>
+
+        <div class="menu-category-title">個人別情報</div>
+        <a href="profile_info.html" class="menu-link-item"><span>学籍情報照会について</span><span class="menu-arrow">＞</span></a>
+        <a href="profile_detail.html" class="menu-link-item"><span>学籍情報照会</span><span class="menu-arrow">＞</span></a>
+        <a href="health_check.html" class="menu-link-item"><span>健康診断情報照会</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>安否確認回答</span><span class="menu-arrow">＞</span></a>
+
+        <div class="menu-category-title">履修登録</div>
+        <a href="#" class="menu-link-item"><span>履修の手引き</span><span class="menu-arrow">＞</span></a>
+
+        <div class="menu-category-title">時間割</div>
+        <a href="#" class="menu-link-item"><span>時間割について</span><span class="menu-arrow">＞</span></a>
+        <a href="timetable.html" class="menu-link-item"><span>学生時間割表</span><span class="menu-arrow">＞</span></a>
+
+        <div class="menu-category-title">授業</div>
+        <a href="#" class="menu-link-item"><span>シラバス照会</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>2020～2022シラバス照会</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>出席管理について</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>出席登録</span><span class="menu-arrow">＞</span></a>
+        <a href="attendance.html" class="menu-link-item"><span>出席確認</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>授業評価閲覧</span><span class="menu-arrow">＞</span></a>
+
+        <div class="menu-category-title">成績関連</div>
+        <a href="#" class="menu-link-item"><span>成績照会について</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>成績照会</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>掲示板</span><span class="menu-arrow">＞</span></a>
+
+        <div class="menu-category-title">資料/サイトリンク</div>
+        <a href="#" class="menu-link-item"><span>学事日程</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>学生要覧</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>UNIPA使用法</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>MARCOシステム</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>東京電機大学生活協同組合HP</span><span class="menu-arrow">＞</span></a>
+
+        <div class="menu-category-title">授業アンケート</div>
+        <a href="#" class="menu-link-item"><span>授業アンケート回答</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>回答方法</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>結果照会（BOX）</span><span class="menu-arrow">＞</span></a>
+
+        <div class="menu-category-title">マイステップ</div>
+        <a href="#" class="menu-link-item"><span>マイステップ登録</span><span class="menu-arrow">＞</span></a>
+
+        <div class="menu-category-title">★WebClass★</div>
+        <a href="#" class="menu-link-item"><span>TDUポートフォリオへのリンク</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>★WebClass★</span><span class="menu-arrow">＞</span></a>
+
+        <a href="#" class="menu-blue-bar">
+            <span>👤 個人設定(スマートフォン)</span>
+            <span>＞</span>
+        </a>
+
+        <div class="logout-area">
+            <a href="index.html" class="btn-logout">↪ ログアウト</a>
+        </div>
+    </div>
+
 </div>
 
 <script>
+    const menuOpenBtn = document.getElementById('menuOpenBtn');
+    const sideMenu = document.getElementById('sideMenu');
+    const menuOverlay = document.getElementById('menuOverlay');
+
+    // 「☰」ボタン制御
+    menuOpenBtn.addEventListener('click', function() {
+        sideMenu.classList.add('open');
+        menuOverlay.style.display = 'block';
+    });
+
+    menuOverlay.addEventListener('click', function() {
+        sideMenu.classList.remove('open');
+        menuOverlay.style.display = 'none';
+    });
+
     const today = new Date();
 
     // 基準日表示を今日の日付に自動更新！
@@ -201,7 +335,7 @@
     document.getElementById('rate-seigyo').textContent = calculateRate(seigyoDates);
     document.getElementById('rate-zairyo').textContent = calculateRate(seigyoDates);
 
-    // ⏰ 5分放置で自動ログアウト（timeout.htmlへ移動）
+    // ⏰ 5分放置で自動ログアウト
     (function() {
         const TIMEOUT_DURATION = 300000; 
         let logoutTimer;
