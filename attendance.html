@@ -103,6 +103,7 @@
 
     <div class="card-list">
         
+        <!-- 1. 機械工学実験実習I -->
         <a href="jiken-jisshu.html" class="class-card">
             <div class="class-time">月1 月2</div>
             <div class="class-code">1102881301</div>
@@ -112,6 +113,7 @@
             <span class="card-arrow">＞</span>
         </a>
 
+        <!-- 2. 機構学 -->
         <a href="kikougaku.html" class="class-card">
             <div class="class-time">火2</div>
             <div class="class-code">1103111301</div>
@@ -121,6 +123,7 @@
             <span class="card-arrow">＞</span>
         </a>
 
+        <!-- 3. キャリアデザイン -->
         <a href="#" class="class-card">
             <div class="class-time">火3</div><div class="class-code">1111161301</div>
             <div class="class-title">キャリアデザイン (EF2022～)(前後期科目)</div>
@@ -128,6 +131,7 @@
             <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率<span id="rate-career">%</span></div><span class="card-arrow">＞</span>
         </a>
 
+        <!-- 4. 機械要素設計 -->
         <a href="#" class="class-card">
             <div class="class-time">火4</div><div class="class-code">1111041301</div>
             <div class="class-title">機械要素設計 (EF2022～)</div>
@@ -135,6 +139,7 @@
             <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率<span id="rate-yoso">%</span></div><span class="card-arrow">＞</span>
         </a>
 
+        <!-- 5. 微分方程式I -->
         <a href="#" class="class-card">
             <div class="class-time">火5</div><div class="class-code">1105981504</div>
             <div class="class-title">微分方程式I (再履修クラス／EK・EF)</div>
@@ -142,6 +147,7 @@
             <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率<span id="rate-bifun">%</span></div><span class="card-arrow">＞</span>
         </a>
 
+        <!-- 6. 確率・統計II -->
         <a href="#" class="class-card">
             <div class="class-time">水1</div><div class="class-code">1102551501</div>
             <div class="class-title">確率・統計II (EK・EF)</div>
@@ -149,6 +155,7 @@
             <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率<span id="rate-kakuritsu">%</span></div><span class="card-arrow">＞</span>
         </a>
 
+        <!-- 7. 技術者倫理 -->
         <a href="#" class="class-card">
             <div class="class-time">水3</div><div class="class-code">11G0401501</div>
             <div class="class-title">技術者倫理 (水3：西條クラス)</div>
@@ -156,6 +163,7 @@
             <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率<span id="rate-rinri">%</span></div><span class="card-arrow">＞</span>
         </a>
 
+        <!-- 8. 先端機械設計製図I -->
         <a href="#" class="class-card">
             <div class="class-time">木1 木2</div><div class="class-code">1106511301</div>
             <div class="class-title">先端機械設計製図I</div>
@@ -163,6 +171,7 @@
             <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率<span id="rate-seizu">%</span></div><span class="card-arrow">＞</span>
         </a>
 
+        <!-- 9. 先端機械実験実習I -->
         <a href="sentan-jissen.html" class="class-card">
             <div class="class-time">木3 木4</div><div class="class-code">1106491302</div>
             <div class="class-title">先端機械実験実習I</div>
@@ -170,6 +179,7 @@
             <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率<span id="rate-sentan">0%</span></div><span class="card-arrow">＞</span>
         </a>
 
+        <!-- 10. 制御工学I -->
         <a href="seigyo-kougaku.html" class="class-card">
             <div class="class-time">金1</div><div class="class-code">1104591301</div>
             <div class="class-title">制御工学I (EF)</div>
@@ -177,6 +187,7 @@
             <div class="class-detail"><span class="class-detail-icon">📄</span> 出席率<span id="rate-seigyo">%</span></div><span class="card-arrow">＞</span>
         </a>
 
+        <!-- 11. 材料力学Iおよび演習 -->
         <a href="zairyogu-rikigaku.html" class="class-card">
             <div class="class-time">金3 金4</div><div class="class-code">1103981302</div>
             <div class="class-title">材料力学Iおよび演習 (EF)</div>
@@ -186,8 +197,10 @@
 
     </div>
 
+    <!-- メニュー裏側の黒モヤ背景 -->
     <div class="menu-overlay" id="menuOverlay"></div>
 
+    <!-- ⚙️ フルメニュー（ドロワー）完全実装 -->
     <div class="side-menu" id="sideMenu">
         <a href="success.html" class="nav-blue-item">
             <div><span>🏠</span>ポータルトップ(スマートフォン)</div>
@@ -322,7 +335,7 @@
         "2026-07-10", "2026-07-17"
     ];
 
-    // 💥 計算結果の流し込み（1番目と9番目の実習は一律で「0%」固定！）
+    // 計算結果の流し込み（1番目と9番目の実習は一律で「0%」固定！）
     document.getElementById('rate-jisshu').textContent = '0%';
     document.getElementById('rate-kikou').textContent = calculateRate(kikouDates);
     document.getElementById('rate-career').textContent = calculateRate(careerDates);

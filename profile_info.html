@@ -241,4 +241,62 @@
         <a href="#" class="menu-link-item"><span>回答方法</span><span class="menu-arrow">＞</span></a>
         <a href="#" class="menu-link-item"><span>結果照会（BOX）</span><span class="menu-arrow">＞</span></a>
 
-        <div class="menu-category-
+        <div class="menu-category-title">マイステップ</div>
+        <a href="#" class="menu-link-item"><span>マイステップ登録</span><span class="menu-arrow">＞</span></a>
+
+        <div class="menu-category-title">★WebClass★</div>
+        <a href="#" class="menu-link-item"><span>TDUポートフォリオへのリンク</span><span class="menu-arrow">＞</span></a>
+        <a href="#" class="menu-link-item"><span>★WebClass★</span><span class="menu-arrow">＞</span></a>
+
+        <a href="#" class="menu-blue-bar">
+            <span>👤 個人設定(スマートフォン)</span>
+            <span>＞</span>
+        </a>
+
+        <div class="logout-area">
+            <a href="index.html" class="btn-logout">↪ ログアウト</a>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const menuOpenBtn = document.getElementById('menuOpenBtn');
+    const sideMenu = document.getElementById('sideMenu');
+    const menuOverlay = document.getElementById('menuOverlay');
+
+    // 「☰」ボタンを押したらメニューを開く！
+    menuOpenBtn.addEventListener('click', function() {
+        sideMenu.classList.add('open');
+        menuOverlay.style.display = 'block';
+    });
+
+    // 黒い背景モヤモヤを押したらメニューを閉じる！
+    menuOverlay.addEventListener('click', function() {
+        sideMenu.classList.remove('open');
+        menuOverlay.style.display = 'none';
+    });
+
+    // ===================================================
+    // ⏰ 5分放置で警告画面（timeout.html）に飛ばす機能！
+    // ===================================================
+    (function() {
+        const TIMEOUT_DURATION = 300000; 
+        let logoutTimer;
+
+        function resetLogoutTimer() {
+            clearTimeout(logoutTimer);
+            logoutTimer = setTimeout(function() {
+                window.location.href = 'timeout.html';
+            }, TIMEOUT_DURATION);
+        }
+
+        window.addEventListener('touchstart', resetLogoutTimer);
+        window.addEventListener('click', resetLogoutTimer);
+
+        resetLogoutTimer();
+    })();
+</script>
+
+</body>
+</html>
