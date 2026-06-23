@@ -2,10 +2,11 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>説明画面 - 学籍情報照会</title>
+    <title>学生時間割表</title>
     <style>
-        /* 全体のスタイル */
+        /* 全体の基本スタイル */
         body {
             margin: 0;
             padding: 0;
@@ -14,30 +15,29 @@
             color: #333;
             display: flex;
             justify-content: center;
-            overflow-x: hidden;
         }
 
         /* スマホサイズ固定コンテナ */
         .container {
             width: 100%;
             max-width: 412px;
-            background-color: #ffffff; /* 説明画面の背景は白ベース */
+            background-color: #f4f5f9;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            position: relative;
             padding-bottom: 40px;
+            position: relative;
         }
 
-        /* ヘッダー（UNIPA特有の濃いブルー） */
+        /* 青いヘッダー */
         .header {
+            background-color: #1a65cc;
+            color: white;
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 15px 20px;
-            background-color: #1a65cc; /* 本物の画面に合わせたブルー */
-            color: white;
             position: sticky;
             top: 0;
             z-index: 10;
@@ -47,27 +47,147 @@
             font-weight: bold;
             flex-grow: 1;
             text-align: center;
-            margin-left: 40px; /* 右の三本線ボタンとのバランス用 */
+            margin-left: 20px;
         }
         .icon-btn {
             font-size: 20px;
             cursor: pointer;
+            text-decoration: none;
+            color: white;
             user-select: none;
         }
 
-        /* メインコンテンツ（説明文エリア） */
-        .content-area {
-            padding: 25px 20px;
-            line-height: 1.6;
-            font-size: 15px;
-            color: #444444;
+        /* 上部ステータスエリア */
+        .status-area {
+            padding: 15px 15px 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f4f5f9;
         }
-        
-        .content-paragraph {
-            margin-bottom: 20px;
+        .semester-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+        .error-check {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 14px;
+            color: #333;
+        }
+        .error-box {
+            width: 14px;
+            height: 14px;
+            border: 1px solid #cc4141;
+            background-color: #fcebeb;
+            display: inline-block;
+        }
+        .credits-display {
+            font-size: 14px;
+            color: #333;
+        }
+        .credits-num {
+            font-size: 18px;
+            font-weight: bold;
         }
 
-        /* ⚙️ サイドメニュー（ドロワー）復活スタイル */
+        /* 曜日ヘッダーエリア */
+        .days-header {
+            display: grid;
+            grid-template-columns: 25px repeat(6, 1fr);
+            padding: 0 10px;
+            text-align: center;
+            font-size: 14px;
+            color: #999;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .day-item {
+            padding-bottom: 2px;
+        }
+        .day-item.active {
+            color: #1a65cc;
+            border-bottom: 2px solid #1a65cc;
+        }
+
+        /* 時間割グリッドエリア */
+        .timetable-grid {
+            display: grid;
+            grid-template-columns: 25px repeat(6, 1fr);
+            grid-auto-rows: 72px;
+            gap: 4px;
+            padding: 0 10px;
+        }
+
+        /* 時限の数字のマス */
+        .period-number {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        /* 空白のコマのマス */
+        .empty-cell {
+            background-color: #edf0f5;
+            border-radius: 4px;
+            border: 1px solid #e2e6f0;
+        }
+
+        /* 授業が入っているマス */
+        .class-cell {
+            background-color: #fff;
+            border-radius: 4px;
+            border: 1px solid #d3dbe6;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            padding: 4px 2px;
+            box-sizing: border-box;
+            color: #333;
+            text-align: center;
+            justify-content: flex-start;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .class-cell::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 10%;
+            width: 80%;
+            height: 3px;
+            background-color: #a0a8b5;
+            border-bottom-left-radius: 2px;
+            border-bottom-right-radius: 2px;
+        }
+
+        .class-text {
+            font-size: 10px;
+            line-height: 1.2;
+            word-break: break-all;
+            margin-top: 4px;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 4;
+            overflow: hidden;
+        }
+
+        /* 右上の時計アイコンボタン */
+        .clock-icon-row {
+            display: flex;
+            justify-content: flex-end;
+            padding: 0 20px;
+            color: #1a65cc;
+            font-size: 18px;
+        }
+
+        /* ⚙️ サイドメニュー（ドロワー）完全復活スタイル */
         .menu-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -75,13 +195,9 @@
             z-index: 100;
             display: none;
         }
-
         .side-menu {
             position: fixed;
-            top: 0; 
-            right: -100%;
-            width: 85%; 
-            height: 100%;
+            top: 0; right: -100%; width: 85%; height: 100%;
             background-color: #ffffff;
             z-index: 101;
             box-sizing: border-box;
@@ -90,86 +206,37 @@
             display: flex;
             flex-direction: column;
         }
-
-        .side-menu.open {
-            right: 0;
-        }
-
+        .side-menu.open { right: 0; }
+        
         .nav-blue-item {
-            background-color: #1a65cc;
-            color: white;
-            padding: 16px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: bold;
+            background-color: #1a65cc; color: white; padding: 16px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            text-decoration: none; font-size: 15px; font-weight: bold;
             border-bottom: 1px solid rgba(255,255,255,0.2);
         }
         .nav-blue-item div { display: flex; align-items: center; gap: 10px; }
-
+        
         .menu-category-title {
-            color: #1a65cc;
-            font-size: 14px;
-            font-weight: bold;
-            padding: 15px 20px 5px 20px;
-            background-color: #fff;
+            color: #1a65cc; font-size: 14px; font-weight: bold;
+            padding: 15px 20px 5px 20px; background-color: #fff;
         }
-
         .menu-link-item {
-            padding: 14px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            text-decoration: none;
-            color: #333333;
-            font-size: 14px;
+            padding: 14px 20px; display: flex; justify-content: space-between; align-items: center;
+            text-decoration: none; color: #33; font-size: 14px; border-bottom: 1px solid #f0f0f0; padding-left: 35px;
             background-color: #fff;
-            border-bottom: 1px solid #f0f0f0;
-            padding-left: 35px;
         }
-        .menu-arrow {
-            color: #1a65cc;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
+        .menu-arrow { color: #1a65cc; font-weight: bold; font-size: 14px; }
+        
         .menu-blue-bar {
-            background-color: #1a65cc;
-            color: white;
-            padding: 14px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: bold;
-            margin-top: 10px;
+            background-color: #1a65cc; color: white; padding: 14px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            text-decoration: none; font-size: 14px; font-weight: bold; margin-top: 10px;
         }
-
-        .logout-area {
-            padding: 20px;
-            padding-bottom: 80px;
-            background-color: #fff;
-            text-align: center;
-            margin-bottom: 20px;
-        }
+        .logout-area { padding: 20px; padding-bottom: 80px; text-align: center; background-color: #fff; }
         .btn-logout {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #1a65cc;
-            border-radius: 25px;
-            background-color: white;
-            color: #1a65cc;
-            font-size: 15px;
-            font-weight: bold;
-            text-decoration: none;
-            box-sizing: border-box;
+            display: flex; justify-content: center; align-items: center; gap: 8px; width: 100%;
+            padding: 12px; border: 2px solid #1a65cc; border-radius: 25px; background-color: white;
+            color: #1a65cc; font-size: 15px; font-weight: bold; text-decoration: none; box-sizing: border-box;
         }
     </style>
 </head>
@@ -178,17 +245,65 @@
 <div class="container">
 
     <div class="header">
-        <div class="header-title">説明画面</div>
+        <a href="success.html" class="icon-btn">＜</a>
+        <div class="header-title">学生時間割表</div>
         <span class="icon-btn" id="menuOpenBtn">☰</span>
     </div>
 
-    <div class="content-area">
-        <div class="content-paragraph">
-            大学に登録されている自身の情報を参照することができます。
+    <div class="clock-icon-row">
+        <span>🕒</span>
+    </div>
+
+    <div class="status-area">
+        <div class="semester-title">2026年度 前期</div>
+        <div class="error-check">
+            <span class="error-box"></span>
+            <span>エラー</span>
         </div>
-        <div class="content-paragraph">
-            住所や電話番号、メールアドレスなどの連絡先を確認し、変更がある場合は学生支援センター（学生厚生担当）窓口まで変更の申請をお願いします。
+        <div class="credits-display">
+            <span class="credits-num">22.0</span> 単位
         </div>
+    </div>
+
+    <div class="days-header">
+        <div></div>
+        <div class="day-item" id="day-1">月</div>
+        <div class="day-item" id="day-2">火</div>
+        <div class="day-item" id="day-3">水</div>
+        <div class="day-item" id="day-4">木</div>
+        <div class="day-item" id="day-5">金</div>
+        <div class="day-item" id="day-6">土</div>
+    </div>
+
+    <div class="timetable-grid">
+
+        <div class="period-number">1</div>
+        <div class="class-cell"><div class="class-text">機械工学<br>実験実…<br>(EF)</div></div> <div class="empty-cell"></div> <div class="class-cell"><div class="class-text">確率・統<br>計II (E<br>K・EF)</div></div> <div class="class-cell"><div class="class-text">先端機械<br>設計製…</div></div> <div class="class-cell"><div class="class-text">制御工…<br>(EF)</div></div> <div class="empty-cell"></div>
+        
+        <div class="period-number">2</div>
+        <div class="class-cell"><div class="class-text">機械工学<br>実験実…<br>(EF)</div></div> <div class="class-cell"><div class="class-text">機構学 (E<br>F)</div></div> <div class="empty-cell"></div> <div class="class-cell"><div class="class-text">先端機械<br>設計製…</div></div> <div class="empty-cell"></div> <div class="empty-cell"></div>
+        
+        <div class="period-number">3</div>
+        <div class="empty-cell"></div> <div class="class-cell"><div class="class-text">キャリア<br>デザイン<br>(EF2022<br>～)(前後<br>期科目)</div></div> <div class="class-cell"><div class="class-text">技術者倫<br>理（水<br>３：西條<br>クラス）</div></div> <div class="class-cell"><div class="class-text">先端機械<br>実験実…</div></div> <div class="class-cell"><div class="class-text">材料力…<br>および演<br>習 (EF)</div></div> <div class="empty-cell"></div>
+        
+        <div class="period-number">4</div>
+        <div class="empty-cell"></div> <div class="class-cell"><div class="class-text">機械要素<br>設計 (EF2<br>022～)</div></div> <div class="empty-cell"></div> <div class="class-cell"><div class="class-text">先端機械<br>実験実…</div></div> <div class="class-cell"><div class="class-text">材料力…<br>および演<br>習 (EF)</div></div> <div class="empty-cell"></div>
+        
+        <div class="period-number">5</div>
+        <div class="empty-cell"></div> <div class="class-cell"><div class="class-text">微分方程<br>式I (再履<br>修クラス<br>／EK・E<br>F)</div></div> <div class="empty-cell"></div> <div class="empty-cell"></div> <div class="empty-cell"></div> <div class="empty-cell"></div>
+        
+        <div class="period-number">6</div>
+        <div class="empty-cell"></div><div class="empty-cell"></div><div class="empty-cell"></div>
+        <div class="empty-cell"></div><div class="empty-cell"></div><div class="empty-cell"></div>
+
+        <div class="period-number">7</div>
+        <div class="empty-cell"></div><div class="empty-cell"></div><div class="empty-cell"></div>
+        <div class="empty-cell"></div><div class="empty-cell"></div><div class="empty-cell"></div>
+
+        <div class="period-number">8</div>
+        <div class="empty-cell"></div><div class="empty-cell"></div><div class="empty-cell"></div>
+        <div class="empty-cell"></div><div class="empty-cell"></div><div class="empty-cell"></div>
+
     </div>
 
     <div class="menu-overlay" id="menuOverlay"></div>
@@ -261,21 +376,38 @@
 </div>
 
 <script>
+    // ===================================================
+    // ☰ メニュー開閉制御ロジック
+    // ===================================================
     const menuOpenBtn = document.getElementById('menuOpenBtn');
     const sideMenu = document.getElementById('sideMenu');
     const menuOverlay = document.getElementById('menuOverlay');
 
-    // 「☰」ボタンを押したらメニューを開く！
     menuOpenBtn.addEventListener('click', function() {
         sideMenu.classList.add('open');
         menuOverlay.style.display = 'block';
     });
 
-    // 黒い背景モヤモヤを押したらメニューを閉じる！
     menuOverlay.addEventListener('click', function() {
         sideMenu.classList.remove('open');
         menuOverlay.style.display = 'none';
     });
+
+    // ===================================================
+    // 📅 曜日を自動で青く切り替えるロジック！
+    // ===================================================
+    (function() {
+        const currentDay = new Date().getDay();
+        if (currentDay >= 1 && currentDay <= 6) {
+            const todayElement = document.getElementById('day-' + currentDay);
+            if (todayElement) {
+                todayElement.classList.add('active');
+            }
+        } else {
+            const monElement = document.getElementById('day-1');
+            if (monElement) monElement.classList.add('active');
+        }
+    })();
 
     // ===================================================
     // ⏰ 5分放置で警告画面（timeout.html）に飛ばす機能！
